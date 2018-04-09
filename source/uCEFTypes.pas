@@ -1,5 +1,5 @@
 // ************************************************************************
-// ***************************** OldCEF4Delphi *******************************
+// ***************************** OldCEF4Delphi ****************************
 // ************************************************************************
 //
 // OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
@@ -323,7 +323,7 @@ type
     height : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_range_t) ****
+  // /include/internal/cef_types.h (cef_range_t)
 
   // /include/internal/cef_types.h (cef_page_range_t) {new}
   TCefPageRange = record
@@ -364,8 +364,6 @@ type
     path     : ustring;
     query    : ustring;
   end;
-
-  // /include/internal/cef_types.h (cef_insets_t) ****
 
   // /include/internal/cef_types.h (cef_json_parser_error_t)
   TCefJsonParserError = (
@@ -415,7 +413,7 @@ type
     VTYPE_LIST
   );
 
-  // /include/internal/cef_types.h (cef_referrer_policy_t) ****
+  // /include/internal/cef_types.h (cef_referrer_policy_t)
   TCefReferrerPolicy = (
     REFERRER_POLICY_ALWAYS,
     REFERRER_POLICY_DEFAULT,
@@ -625,12 +623,6 @@ type
     TID_RENDERER
   );
 
-  // /include/internal/cef_types.h (cef_thread_priority_t) ****
-
-  // /include/internal/cef_types.h (cef_message_loop_type_t) ****
-
-  // /include/internal/cef_types.h (cef_com_init_mode_t) ****
-
   // /include/internal/cef_types.h (cef_mouse_button_type_t)
   TCefMouseButtonType = (
     MBT_LEFT,
@@ -661,7 +653,7 @@ type
     TS_PROCESS_CRASHED
   );
 
-  // /include/internal/cef_types.h (cef_path_key_t) ****
+  // /include/internal/cef_types.h (cef_path_key_t)
   TCefPathKey = (
     PK_DIR_CURRENT,
     PK_DIR_EXE,
@@ -693,16 +685,6 @@ type
     PLUGIN_POLICY_BLOCK,
     PLUGIN_POLICY_DISABLE
   );
-
-  // /include/internal/cef_types.h (cef_color_type_t) ****
-
-  // /include/internal/cef_types.h (cef_alpha_type_t) ****
-
-  // /include/internal/cef_types.h (cef_text_style_t) ****
-
-  // /include/internal/cef_types.h (cef_main_axis_alignment_t) ****
-
-  // /include/internal/cef_types.h (cef_cross_axis_alignment_t) ****
 
   // /include/internal/cef_types.h (cef_pdf_print_margin_type_t)
   TCefPdfPrintMarginType = (
@@ -783,25 +765,13 @@ type
     DOM_EVENT_PHASE_BUBBLING
   );
 
-  // /include/internal/cef_types.h (cef_button_state_t) ****
-
-  // /include/internal/cef_types.h (cef_horizontal_alignment_t) ****
-
-  // /include/internal/cef_types.h (cef_menu_anchor_position_t) ****
-
-  // /include/internal/cef_types.h (cef_menu_color_type_t) ****
-
-  // /include/internal/cef_types.h (cef_cdm_registration_error_t) ****
-
-  // /include/internal/cef_types.h (cef_geoposition_error_code_t) {new}
+  // /include/internal/cef_types.h (cef_geoposition_error_code_t)
   TCefGeopositionErrorCode = (
     GEOPOSITON_ERROR_NONE,
     GEOPOSITON_ERROR_PERMISSION_DENIED,
     GEOPOSITON_ERROR_POSITION_UNAVAILABLE,
     GEOPOSITON_ERROR_TIMEOUT
   );
-
-  // /include/internal/cef_types.h (cef_composition_underline_t) ****
 
   // /include/internal/cef_time.h (cef_time_t)
   TCefTime = record
@@ -815,17 +785,13 @@ type
     millisecond  : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_box_layout_settings_t) ****
-
-  // /include/internal/cef_types.h (cef_settings_t) ****
+  // /include/internal/cef_types.h (cef_settings_t)
   TCefSettings = record
     size                           : NativeUInt;
     single_process                 : Integer;
     no_sandbox                     : Integer;
     browser_subprocess_path        : TCefString;
-    //framework_dir_path             : TCefString;
     multi_threaded_message_loop    : Integer;
-    //external_message_pump          : Integer;
     windowless_rendering_enabled   : Integer;
     command_line_args_disabled     : Integer;
     cache_path                     : TCefString;
@@ -843,14 +809,13 @@ type
     pack_loading_disabled          : Integer;
     remote_debugging_port          : Integer;
     uncaught_exception_stack_size  : Integer;
-    context_safety_implementation  : Integer; {new}
+    context_safety_implementation  : Integer;
     ignore_certificate_errors      : Integer;
-    //enable_net_security_expiration : integer;
     background_color               : TCefColor;
     accept_language_list           : TCefString;
   end;
 
-  // /include/internal/cef_types_win.h (cef_window_info_t) ****
+  // /include/internal/cef_types_win.h (cef_window_info_t)
   TCefWindowInfo = record
     ex_style                      : DWORD;
     window_name                   : TCefString;
@@ -862,7 +827,7 @@ type
     parent_window                 : TCefWindowHandle;
     menu                          : HMENU;
     windowless_rendering_enabled  : Integer;
-    transparent_painting_enabled  : Integer; {new}
+    transparent_painting_enabled  : Integer;
     window                        : TCefWindowHandle;
   end;
 
@@ -886,7 +851,7 @@ type
     focus_on_editable_field : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_popup_features_t) ****
+  // /include/internal/cef_types.h (cef_popup_features_t)
   TCefPopupFeatures = record
     x                  : Integer;
     xSet               : Integer;
@@ -899,15 +864,15 @@ type
     menuBarVisible     : Integer;
     statusBarVisible   : Integer;
     toolBarVisible     : Integer;
-    locationBarVisible : Integer; {new}
+    locationBarVisible : Integer;
     scrollbarsVisible  : Integer;
-    resizable          : Integer; {new}
-    fullscreen         : Integer; {new}
-    dialog             : Integer; {new}
-    additionalFeatures : TCefStringList; {new}
+    resizable          : Integer;
+    fullscreen         : Integer;
+    dialog             : Integer;
+    additionalFeatures : TCefStringList;
   end;
 
-  // /include/internal/cef_types.h (cef_browser_settings_t) ****
+  // /include/internal/cef_types.h (cef_browser_settings_t)
   TCefBrowserSettings = record
     size                            : NativeUInt;
     windowless_frame_rate           : Integer;
@@ -924,11 +889,11 @@ type
     default_encoding                : TCefString;
     remote_fonts                    : TCefState;
     javascript                      : TCefState;
-    javascript_open_windows         : TCefState; {new}
+    javascript_open_windows         : TCefState;
     javascript_close_windows        : TCefState;
     javascript_access_clipboard     : TCefState;
     javascript_dom_paste            : TCefState;
-    caret_browsing                  : TCefState; {new}
+    caret_browsing                  : TCefState;
     plugins                         : TCefState;
     universal_access_from_file_urls : TCefState;
     file_access_from_file_urls      : TCefState;
@@ -955,14 +920,13 @@ type
     available_rect      : TCefRect;
   end;
 
-  // /include/internal/cef_types.h (cef_request_context_settings_t) ****
+  // /include/internal/cef_types.h (cef_request_context_settings_t)
   TCefRequestContextSettings = record
     size                           : NativeUInt;
     cache_path                     : TCefString;
     persist_session_cookies        : Integer;
     persist_user_preferences       : Integer;
     ignore_certificate_errors      : Integer;
-    //enable_net_security_expiration : integer;
     accept_language_list           : TCefString;
   end;
 
@@ -993,13 +957,12 @@ type
     has_expires : boolean;
   end;
 
-  // /include/internal/cef_types.h (cef_pdf_print_settings_t) ****
+  // /include/internal/cef_types.h (cef_pdf_print_settings_t)
   TCefPdfPrintSettings = record
     header_footer_title   : TCefString;
     header_footer_url     : TCefString;
     page_width            : Integer;
     page_height           : Integer;
-    //scale_factor          : Integer;
     margin_top            : double;
     margin_right          : double;
     margin_bottom         : double;
@@ -1018,7 +981,7 @@ type
     modifiers : TCefEventFlags;
   end;
 
-  // /include/internal/cef_types.h (cef_geoposition_t) {new}
+  // /include/internal/cef_types.h (cef_geoposition_t)
   TCefGeoposition = record
     latitude          : Double;
     longitude         : Double;
@@ -1032,15 +995,13 @@ type
     error_message     : TCefString;
   end;
 
-  // /include/capi/cef_base_capi.h (cef_base_t) ****
+  // /include/capi/cef_base_capi.h (cef_base_t)
   TCefBase = record
     size        : NativeUInt;
     add_ref     : procedure(self: PCefBase); stdcall;
     release     : function(self: PCefBase): Integer; stdcall;
     has_one_ref : function(self: PCefBase): Integer; stdcall;
   end;
-
-  // /include/capi/cef_base_capi.h (cef_base_scoped_t) ****
 
   // /include/capi/cef_stream_capi.h (cef_stream_writer_t)
   TCefStreamWriter = record
@@ -1051,10 +1012,6 @@ type
     flush     : function(self: PCefStreamWriter): Integer; stdcall;
     may_block : function(self: PCefStreamWriter): Integer; stdcall;
   end;
-
-  // /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t) ****
-
-  // /include/capi/cef_x509_certificate_capi.h (cef_x509certificate_t) ****
 
   // /include/capi/cef_geolocation_capi.h (cef_get_geolocation_callback_t)
   TCefGetGeolocationCallback = record
@@ -1075,7 +1032,7 @@ type
     cont: procedure(self: PCefGeolocationCallback; allow: Integer); stdcall;
   end;
 
-  // /include/capi/cef_ssl_info_capi.h (cef_sslcert_principal_t) **** new ****
+  // /include/capi/cef_ssl_info_capi.h (cef_sslcert_principal_t)
   TCefSslCertPrincipal = record
     base                        : TCefBase;
     get_display_name            : function(self: PCefSslCertPrincipal): PCefStringUserfree; stdcall;
@@ -1089,27 +1046,23 @@ type
     get_domain_components       : procedure(self: PCefSslCertPrincipal; components: TCefStringList); stdcall;
   end;
 
-  // /include/capi/cef_ssl_info_capi.h (cef_sslinfo_t) ****
+  // /include/capi/cef_ssl_info_capi.h (cef_sslinfo_t)
   TCefSslInfo = record
     base                        : TCefBase;
     get_cert_status             : function(self: PCefSslInfo): TCefCertStatus; stdcall;
-    is_cert_status_error        : function(self: PCefSslInfo): Integer; stdcall; {new}
-    is_cert_status_minor_error  : function(self: PCefSslInfo): Integer; stdcall; {new}
-    get_subject                 : function(self: PCefSslInfo): PCefSslCertPrincipal; stdcall; {new}
-    get_issuer                  : function(self: PCefSslInfo): PCefSslCertPrincipal; stdcall; {new}
-    get_serial_number           : function(self: PCefSslInfo): PCefBinaryValue; stdcall; {new}
-    get_valid_start             : function(self: PCefSslInfo): TCefTime; stdcall; {new}
-    get_valid_expiry            : function(self: PCefSslInfo): TCefTime; stdcall; {new}
-    get_derencoded              : function(self: PCefSslInfo): PCefBinaryValue; stdcall; {new}
-    get_pemencoded              : function(self: PCefSslInfo): PCefBinaryValue; stdcall; {new}
-    get_issuer_chain_size       : function(self: PCefSslInfo): NativeUInt; stdcall; {new}
-    get_derencoded_issuer_chain : procedure(self: PCefSslInfo; var chainCount: NativeUInt; var chain: PCefBinaryValue); stdcall; // new  ****
-    get_pemencoded_issuer_chain : procedure(self: PCefSslInfo; var chainCount: NativeUInt; var chain: PCefBinaryValue); stdcall; // new  ****
+    is_cert_status_error        : function(self: PCefSslInfo): Integer; stdcall;
+    is_cert_status_minor_error  : function(self: PCefSslInfo): Integer; stdcall;
+    get_subject                 : function(self: PCefSslInfo): PCefSslCertPrincipal; stdcall;
+    get_issuer                  : function(self: PCefSslInfo): PCefSslCertPrincipal; stdcall;
+    get_serial_number           : function(self: PCefSslInfo): PCefBinaryValue; stdcall;
+    get_valid_start             : function(self: PCefSslInfo): TCefTime; stdcall;
+    get_valid_expiry            : function(self: PCefSslInfo): TCefTime; stdcall;
+    get_derencoded              : function(self: PCefSslInfo): PCefBinaryValue; stdcall;
+    get_pemencoded              : function(self: PCefSslInfo): PCefBinaryValue; stdcall;
+    get_issuer_chain_size       : function(self: PCefSslInfo): NativeUInt; stdcall;
+    get_derencoded_issuer_chain : procedure(self: PCefSslInfo; var chainCount: NativeUInt; var chain: PCefBinaryValue); stdcall;
+    get_pemencoded_issuer_chain : procedure(self: PCefSslInfo; var chainCount: NativeUInt; var chain: PCefBinaryValue); stdcall;
   end;
-
-  // /include/capi/cef_ssl_status_capi.h (cef_sslstatus_t) ****
-
-  // /include/capi/cef_request_handler_capi.h (cef_select_client_certificate_callback_t) ****
 
   // /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)
   TCefRunContextMenuCallback = record
@@ -1131,7 +1084,7 @@ type
     on_file_dialog : function(self: PCefDialogHandler; browser: PCefBrowser; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; selected_accept_filter: Integer; callback: PCefFileDialogCallback): Integer; stdcall;
   end;
 
-  // /include/capi/cef_display_handler_capi.h (cef_display_handler_t) ****
+  // /include/capi/cef_display_handler_capi.h (cef_display_handler_t)
   TCefDisplayHandler = record
     base                      : TCefBase;
     on_address_change         : procedure(self: PCefDisplayHandler; browser: PCefBrowser; frame: PCefFrame; const url: PCefString); stdcall;
@@ -1140,8 +1093,7 @@ type
     on_fullscreen_mode_change : procedure(self: PCefDisplayHandler; browser: PCefBrowser; fullscreen: Integer); stdcall;
     on_tooltip                : function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
     on_status_message         : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
-    on_console_message        : function(self: PCefDisplayHandler; browser: PCefBrowser; const message_, source: PCefString; line: Integer): Integer; stdcall; // ****
-    //on_auto_resize            : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
+    on_console_message        : function(self: PCefDisplayHandler; browser: PCefBrowser; const message_, source: PCefString; line: Integer): Integer; stdcall;
   end;
 
   // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
@@ -1172,10 +1124,10 @@ type
     on_got_focus  : procedure(self: PCefFocusHandler; browser: PCefBrowser); stdcall;
   end;
 
-  // /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_handler_t) ****
+  // /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_handler_t)
   TCefJsDialogHandler = record
     base                    : TCefBase;
-    on_jsdialog             : function(self: PCefJsDialogHandler; browser: PCefBrowser; const origin_url, accept_lang: PCefString; dialog_type: TCefJsDialogType; const message_text, default_prompt_text: PCefString; callback: PCefJsDialogCallback; suppress_message: PInteger): Integer; stdcall; // ****
+    on_jsdialog             : function(self: PCefJsDialogHandler; browser: PCefBrowser; const origin_url, accept_lang: PCefString; dialog_type: TCefJsDialogType; const message_text, default_prompt_text: PCefString; callback: PCefJsDialogCallback; suppress_message: PInteger): Integer; stdcall;
     on_before_unload_dialog : function(self: PCefJsDialogHandler; browser: PCefBrowser; const message_text: PCefString; is_reload: Integer; callback: PCefJsDialogCallback): Integer; stdcall;
     on_reset_dialog_state   : procedure(self: PCefJsDialogHandler; browser: PCefBrowser); stdcall;
     on_dialog_closed        : procedure(self: PCefJsDialogHandler; browser: PCefBrowser); stdcall;
@@ -1194,7 +1146,7 @@ type
     on_key_event     : function(self: PCefKeyboardHandler; browser: PCefBrowser; const event: PCefKeyEvent; os_event: TCefEventHandle): Integer; stdcall;
   end;
 
-  // /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t) ****
+  // /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)
   TCefLifeSpanHandler = record
     base              : TCefBase;
     on_before_popup   : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; no_javascript_access: PInteger): Integer; stdcall;
@@ -1204,25 +1156,18 @@ type
     on_before_close   : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
   end;
 
-  // /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t) ****
-
-  // /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t) ****
-
-  // /include/capi/cef_extension_capi.h (cef_extension_t) ****
-
-  // /include/capi/cef_load_handler_capi.h (cef_load_handler_t) ****
+  // /include/capi/cef_load_handler_capi.h (cef_load_handler_t)
   TCefLoadHandler = record
     base                    : TCefBase;
     on_loading_state_change : procedure(self: PCefLoadHandler; browser: PCefBrowser; isLoading, canGoBack, canGoForward: Integer); stdcall;
-    on_load_start           : procedure(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame); stdcall; // ****
+    on_load_start           : procedure(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
     on_load_end             : procedure(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame; httpStatusCode: Integer); stdcall;
     on_load_error           : procedure(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_render_handler_capi.h (cef_render_handler_t) ****
+  // /include/capi/cef_render_handler_capi.h (cef_render_handler_t)
   TCefRenderHandler = record
     base                              : TCefBase;
-    //get_accessibility_handler         : function(self: PCefRenderHandler): PCefAccessibilityHandler; stdcall;
     get_root_screen_rect              : function(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
     get_view_rect                     : function(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
     get_screen_point                  : function(self: PCefRenderHandler; browser: PCefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;
@@ -1234,7 +1179,6 @@ type
     start_dragging                    : function(self: PCefRenderHandler; browser: PCefBrowser; drag_data: PCefDragData; allowed_ops: TCefDragOperations; x, y: Integer): Integer; stdcall;
     update_drag_cursor                : procedure(self: PCefRenderHandler; browser: PCefBrowser; operation: TCefDragOperation); stdcall;
     on_scroll_offset_changed          : procedure(self: PCefRenderHandler; browser: PCefBrowser; x, y: Double); stdcall;
-    //on_ime_composition_range_changed  : procedure(self: PCefRenderHandler; browser: PCefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); stdcall;
   end;
 
   // /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)
@@ -1350,7 +1294,7 @@ type
     get_auth_credentials  : function(self: PCefUrlRequestClient; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
   end;
 
-  // /include/capi/cef_urlrequest_capi.h (cef_urlrequest_t) ****
+  // /include/capi/cef_urlrequest_capi.h (cef_urlrequest_t)
   TCefUrlRequest = record
     base                : TCefBase;
     get_request         : function(self: PCefUrlRequest): PCefRequest; stdcall;
@@ -1358,7 +1302,6 @@ type
     get_request_status  : function(self: PCefUrlRequest): TCefUrlRequestStatus; stdcall;
     get_request_error   : function(self: PCefUrlRequest): TCefErrorcode; stdcall;
     get_response        : function(self: PCefUrlRequest): PCefResponse; stdcall;
-    //response_was_cached : function(self: PCefUrlRequest): integer; stdcall;
     cancel              : procedure(self: PCefUrlRequest); stdcall;
   end;
 
@@ -1373,12 +1316,6 @@ type
     base        : TCefBase;
     is_unstable : procedure(self: PCefWebPluginUnstableCallback; const path: PCefString; unstable: Integer); stdcall;
   end;
-
-  // /include/capi/cef_web_plugin_capi.h (cef_register_cdm_callback_t) ****
-
-  // /include/capi/cef_thread_capi.h (cef_thread_t) ****
-
-  // /include/capi/cef_waitable_event_capi.h (cef_waitable_event_t) ****
 
   // /include/capi/cef_task_capi.h (cef_task_runner_t)
   TCefTaskRunner = record
@@ -1404,8 +1341,6 @@ type
     get_data_resource_for_scale : function(self: PCefResourceBundle; resource_id: Integer; scale_factor: TCefScaleFactor; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
   end;
 
-  // /include/capi/cef_menu_model_delegate_capi.h (cef_menu_model_delegate_t) ****
-
   // /include/capi/cef_process_message_capi.h (cef_process_message_t)
   TCefProcessMessage = record
     base              : TCefBase;
@@ -1416,7 +1351,7 @@ type
     get_argument_list : function(self: PCefProcessMessage): PCefListValue; stdcall;
   end;
 
-  // /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t) ****
+  // /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)
   TCefRenderProcessHandler = record
     base                        : TCefBase;
     on_render_thread_created    : procedure(self: PCefRenderProcessHandler; extra_info: PCefListValue); stdcall;
@@ -1424,7 +1359,7 @@ type
     on_browser_created          : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser); stdcall;
     on_browser_destroyed        : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser); stdcall;
     get_load_handler            : function(self: PCefRenderProcessHandler): PCefLoadHandler; stdcall;
-    on_before_navigation        : function(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; navigation_type: TCefNavigationType; is_redirect: Integer): Integer; stdcall; {new}
+    on_before_navigation        : function(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; navigation_type: TCefNavigationType; is_redirect: Integer): Integer; stdcall;
     on_context_created          : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context); stdcall;
     on_context_released         : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context); stdcall;
     on_uncaught_exception       : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context; exception: PCefV8Exception; stackTrace: PCefV8StackTrace); stdcall;
@@ -1432,24 +1367,21 @@ type
     on_process_message_received : function(self: PCefRenderProcessHandler; browser: PCefBrowser; source_process: TCefProcessId; message_: PCefProcessMessage): Integer; stdcall;
   end;
 
-  // /include/capi/cef_request_handler_capi.h (cef_request_handler_t) ****
+  // /include/capi/cef_request_handler_capi.h (cef_request_handler_t)
   TCefRequestHandler = record
     base                          : TCefBase;
     on_before_browse              : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; isRedirect: Integer): Integer; stdcall;
     on_open_urlfrom_tab           : function(self: PCefRequestHandler; browser:PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
     on_before_resource_load       : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; callback: PCefRequestCallback): TCefReturnValue; stdcall;
     get_resource_handler          : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): PCefResourceHandler; stdcall;
-    on_resource_redirect          : procedure(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; new_url: PCefString); stdcall; // ****
+    on_resource_redirect          : procedure(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; new_url: PCefString); stdcall;
     on_resource_response          : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse): Integer; stdcall;
     get_resource_response_filter  : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse): PCefResponseFilter; stdcall;
     on_resource_load_complete     : procedure(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse; status: TCefUrlRequestStatus; received_content_length: Int64); stdcall;
     get_auth_credentials          : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
-    //can_get_cookies               : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): Integer; stdcall;
-    //can_set_cookie                : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; const cookie: PCefCookie): Integer; stdcall;
     on_quota_request              : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
     on_protocol_execution         : procedure(self: PCefRequestHandler; browser: PCefBrowser; const url: PCefString; allow_os_execution: PInteger); stdcall;
     on_certificate_error          : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;
-    //on_select_client_certificate  : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
     on_plugin_crashed             : procedure(self: PCefRequestHandler; browser: PCefBrowser; const plugin_path: PCefString); stdcall;
     on_render_view_ready          : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
     on_render_process_terminated  : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
@@ -1473,12 +1405,10 @@ type
     cancel                : procedure(self: PCefResourceHandler); stdcall;
   end;
 
-  // /include/capi/cef_response_capi.h (cef_response_t) ****
+  // /include/capi/cef_response_capi.h (cef_response_t)
   TCefResponse = record
     base            : TCefBase;
     is_read_only    : function(self: PCefResponse): Integer; stdcall;
-    //get_error       : function(self: PCefResponse): TCefErrorCode; stdcall;
-    //set_error       : procedure(self: PCefResponse; error: TCefErrorCode); stdcall;
     get_status      : function(self: PCefResponse): Integer; stdcall;
     set_status      : procedure(self: PCefResponse; status: Integer); stdcall;
     get_status_text : function(self: PCefResponse): PCefStringUserFree; stdcall;
@@ -1511,7 +1441,7 @@ type
     cancel : procedure(self: PCefCallback); stdcall;
   end;
 
-  // /include/capi/cef_request_context_capi.h (cef_request_context_t) ****
+  // /include/capi/cef_request_context_capi.h (cef_request_context_t)
   TCefRequestContext = record
     base                            : TCefBase;
     is_same                         : function(self, other: PCefRequestContext): Integer; stdcall;
@@ -1532,19 +1462,13 @@ type
     close_all_connections           : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     resolve_host                    : procedure(self: PCefRequestContext; const origin: PCefString; callback: PCefResolveCallback); stdcall;
     resolve_host_cached             : function(self: PCefRequestContext; const origin: PCefString; resolved_ips: TCefStringList): TCefErrorCode; stdcall;
-    //load_extension                  : procedure(self: PCefRequestContext; const root_directory: PCefString; manifest: PCefDictionaryValue; handler: PCefExtensionHandler); stdcall;
-    //did_load_extension              : function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;
-    //has_extension                   : function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;
-    //get_extensions                  : function(self: PCefRequestContext; extension_ids: TCefStringList): Integer; stdcall;
-    //get_extension                   : function(self: PCefRequestContext; const extension_id: PCefString): PCefExtension; stdcall;
   end;
 
-  // /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t) ****
+  // /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t)
   TCefRequestContextHandler = record
     base                            : TCefBase;
-    //on_request_context_initialized  : procedure(self: PCefRequestContextHandler; request_context: PCefRequestContext); stdcall;
     get_cookie_manager              : function(self: PCefRequestContextHandler): PCefCookieManager; stdcall;
-    on_before_plugin_load           : function(self: PCefRequestContextHandler; const mime_type, plugin_url : PCefString; const top_origin_url: PCefString; plugin_info: PCefWebPluginInfo; plugin_policy: PCefPluginPolicy): Integer; stdcall; // ****
+    on_before_plugin_load           : function(self: PCefRequestContextHandler; const mime_type, plugin_url : PCefString; const top_origin_url: PCefString; plugin_info: PCefWebPluginInfo; plugin_policy: PCefPluginPolicy): Integer; stdcall;
   end;
 
   // /include/capi/cef_callback_capi.h (cef_completion_callback_t)
@@ -1610,10 +1534,6 @@ type
     on_file_dialog_dismissed : procedure(self: PCefRunFileDialogCallback; selected_accept_filter: Integer; file_paths: TCefStringList); stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_download_image_callback_t) ****
-
-  // /include/capi/cef_image_capi.h (cef_image_t) ****
-
   // /include/capi/cef_browser_capi.h (cef_pdf_print_callback_t)
   TCefPdfPrintCallback = record
     base                  : TCefBase;
@@ -1626,7 +1546,7 @@ type
     visit : function(self: PCefNavigationEntryVisitor; entry: PCefNavigationEntry; current, index, total: Integer): Integer; stdcall;
   end;
 
-  // /include/capi/cef_navigation_entry_capi.h (cef_navigation_entry_t) ****
+  // /include/capi/cef_navigation_entry_capi.h (cef_navigation_entry_t)
   TCefNavigationEntry = record
     base                  : TCefBase;
     is_valid              : function(self: PCefNavigationEntry): Integer; stdcall;
@@ -1638,10 +1558,9 @@ type
     has_post_data         : function(self: PCefNavigationEntry): Integer; stdcall;
     get_completion_time   : function(self: PCefNavigationEntry): TCefTime; stdcall;
     get_http_status_code  : function(self: PCefNavigationEntry): Integer; stdcall;
-    //get_sslstatus         : function(self: PCefNavigationEntry): PCefSSLStatus; stdcall;
   end;
 
-  // /include/capi/cef_print_settings_capi.h (cef_print_settings_t) ****
+  // /include/capi/cef_print_settings_capi.h (cef_print_settings_t)
   TCefPrintSettings = record
     base                        : TCefBase;
     is_valid                    : function(self: PCefPrintSettings): Integer; stdcall;
@@ -1654,9 +1573,9 @@ type
     get_device_name             : function(self: PCefPrintSettings): PCefStringUserFree; stdcall;
     set_dpi                     : procedure(self: PCefPrintSettings; dpi: Integer); stdcall;
     get_dpi                     : function(self: PCefPrintSettings): Integer; stdcall;
-    set_page_ranges             : procedure(self: PCefPrintSettings; rangesCount: NativeUInt; ranges: PCefPageRange); stdcall; // ****
+    set_page_ranges             : procedure(self: PCefPrintSettings; rangesCount: NativeUInt; ranges: PCefPageRange); stdcall;
     get_page_ranges_count       : function(self: PCefPrintSettings): NativeUInt; stdcall;
-    get_page_ranges             : procedure(self: PCefPrintSettings; rangesCount: PNativeUInt; ranges: PCefPageRange); stdcall; // ****
+    get_page_ranges             : procedure(self: PCefPrintSettings; rangesCount: PNativeUInt; ranges: PCefPageRange); stdcall;
     set_selection_only          : procedure(self: PCefPrintSettings; selection_only: Integer); stdcall;
     is_selection_only           : function(self: PCefPrintSettings): Integer; stdcall;
     set_collate                 : procedure(self: PCefPrintSettings; collate: Integer); stdcall;
@@ -1682,18 +1601,18 @@ type
     cont : procedure(self: PCefPrintJobCallback); stdcall;
   end;
 
-  // /include/capi/cef_print_handler_capi.h (cef_print_handler_t) ****
+  // /include/capi/cef_print_handler_capi.h (cef_print_handler_t)
   TCefPrintHandler = record
     base                : TCefBase;
     on_print_start      : procedure(self: PCefPrintHandler; browser: PCefBrowser); stdcall;
-    on_print_settings   : procedure(self: PCefPrintHandler; settings: PCefPrintSettings; get_defaults: Integer); stdcall; // ****
-    on_print_dialog     : function(self: PCefPrintHandler; has_selection: Integer; callback: PCefPrintDialogCallback): Integer; stdcall; // ****
-    on_print_job        : function(self: PCefPrintHandler; const document_name, pdf_file_path: PCefString; callback: PCefPrintJobCallback): Integer; stdcall; // ****
-    on_print_reset      : procedure(self: PCefPrintHandler); stdcall; // ****
+    on_print_settings   : procedure(self: PCefPrintHandler; settings: PCefPrintSettings; get_defaults: Integer); stdcall;
+    on_print_dialog     : function(self: PCefPrintHandler; has_selection: Integer; callback: PCefPrintDialogCallback): Integer; stdcall;
+    on_print_job        : function(self: PCefPrintHandler; const document_name, pdf_file_path: PCefString; callback: PCefPrintJobCallback): Integer; stdcall;
+    on_print_reset      : procedure(self: PCefPrintHandler); stdcall;
     get_pdf_paper_size  : function(self: PCefPrintHandler; device_units_per_inch: Integer): TCefSize; stdcall;
   end;
 
-  // /include/capi/cef_drag_data_capi.h (cef_drag_data_t) ****
+  // /include/capi/cef_drag_data_capi.h (cef_drag_data_t)
   TCefDragData = record
     base                  : TCefBase;
     clone                 : function(self: PCefDragData): PCefDragData; stdcall;
@@ -1718,9 +1637,6 @@ type
     set_fragment_base_url : procedure(self: PCefDragData; const base_url: PCefString); stdcall;
     reset_file_contents   : procedure(self: PCefDragData); stdcall;
     add_file              : procedure(self: PCefDragData; const path, display_name: PCefString); stdcall;
-    //get_image             : function(self: PCefDragData): PCefImage; stdcall;
-    //get_image_hotspot     : function(self: PCefDragData): PCefPoint; stdcall;
-    //has_image             : function(self: PCefDragData): Integer; stdcall;
   end;
 
   // /include/capi/cef_command_line_capi.h (cef_command_line_t)
@@ -1748,10 +1664,10 @@ type
     prepend_wrapper           : procedure(self: PCefCommandLine; const wrapper: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t) ****
+  // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)
   TCefSchemeRegistrar = record
-    base              : TCefBase; // ****
-    add_custom_scheme : function(self: PCefSchemeRegistrar; const scheme_name: PCefString; is_standard, is_local, is_display_isolated : Integer): Integer; stdcall; // ****
+    base              : TCefBase;
+    add_custom_scheme : function(self: PCefSchemeRegistrar; const scheme_name: PCefString; is_standard, is_local, is_display_isolated : Integer): Integer; stdcall;
   end;
 
   // /include/capi/cef_values_capi.h (cef_binary_value_t)
@@ -1827,7 +1743,7 @@ type
     set_list        : function(self: PCefDictionaryValue; const key: PCefString; value: PCefListValue): Integer; stdcall;
   end;
 
-  // /include/capi/cef_values_capi.h (cef_list_value_t) ****
+  // /include/capi/cef_values_capi.h (cef_list_value_t)
   TCefListValue = record
     base            : TCefBase;
     is_valid        : function(self: PCefListValue): Integer; stdcall;
@@ -1839,25 +1755,25 @@ type
     set_size        : function(self: PCefListValue; size: NativeUInt): Integer; stdcall;
     get_size        : function(self: PCefListValue): NativeUInt; stdcall;
     clear           : function(self: PCefListValue): Integer; stdcall;
-    remove          : function(self: PCefListValue; index: Integer): Integer; stdcall; // ****
-    get_type        : function(self: PCefListValue; index: Integer): TCefValueType; stdcall; // ****
-    get_value       : function(self: PCefListValue; index: Integer): PCefValue; stdcall; // ****
-    get_bool        : function(self: PCefListValue; index: Integer): Integer; stdcall; // ****
-    get_int         : function(self: PCefListValue; index: Integer): Integer; stdcall; // ****
-    get_double      : function(self: PCefListValue; index: Integer): Double; stdcall; // ****
-    get_string      : function(self: PCefListValue; index: Integer): PCefStringUserFree; stdcall; // ****
-    get_binary      : function(self: PCefListValue; index: Integer): PCefBinaryValue; stdcall; // ****
-    get_dictionary  : function(self: PCefListValue; index: Integer): PCefDictionaryValue; stdcall; // ****
-    get_list        : function(self: PCefListValue; index: Integer): PCefListValue; stdcall; // ****
-    set_value       : function(self: PCefListValue; index: Integer; value: PCefValue): Integer; stdcall; // ****
-    set_null        : function(self: PCefListValue; index: Integer): Integer; stdcall; // ****
-    set_bool        : function(self: PCefListValue; index: Integer; value: Integer): Integer; stdcall; // ****
-    set_int         : function(self: PCefListValue; index: Integer; value: Integer): Integer; stdcall; // ****
-    set_double      : function(self: PCefListValue; index: Integer; value: Double): Integer; stdcall; // ****
-    set_string      : function(self: PCefListValue; index: Integer; value: PCefString): Integer; stdcall; // ****
-    set_binary      : function(self: PCefListValue; index: Integer; value: PCefBinaryValue): Integer; stdcall; // ****
-    set_dictionary  : function(self: PCefListValue; index: Integer; value: PCefDictionaryValue): Integer; stdcall; // ****
-    set_list        : function(self: PCefListValue; index: Integer; value: PCefListValue): Integer; stdcall; // ****
+    remove          : function(self: PCefListValue; index: Integer): Integer; stdcall;
+    get_type        : function(self: PCefListValue; index: Integer): TCefValueType; stdcall;
+    get_value       : function(self: PCefListValue; index: Integer): PCefValue; stdcall;
+    get_bool        : function(self: PCefListValue; index: Integer): Integer; stdcall;
+    get_int         : function(self: PCefListValue; index: Integer): Integer; stdcall;
+    get_double      : function(self: PCefListValue; index: Integer): Double; stdcall;
+    get_string      : function(self: PCefListValue; index: Integer): PCefStringUserFree; stdcall;
+    get_binary      : function(self: PCefListValue; index: Integer): PCefBinaryValue; stdcall;
+    get_dictionary  : function(self: PCefListValue; index: Integer): PCefDictionaryValue; stdcall;
+    get_list        : function(self: PCefListValue; index: Integer): PCefListValue; stdcall;
+    set_value       : function(self: PCefListValue; index: Integer; value: PCefValue): Integer; stdcall;
+    set_null        : function(self: PCefListValue; index: Integer): Integer; stdcall;
+    set_bool        : function(self: PCefListValue; index: Integer; value: Integer): Integer; stdcall;
+    set_int         : function(self: PCefListValue; index: Integer; value: Integer): Integer; stdcall;
+    set_double      : function(self: PCefListValue; index: Integer; value: Double): Integer; stdcall;
+    set_string      : function(self: PCefListValue; index: Integer; value: PCefString): Integer; stdcall;
+    set_binary      : function(self: PCefListValue; index: Integer; value: PCefBinaryValue): Integer; stdcall;
+    set_dictionary  : function(self: PCefListValue; index: Integer; value: PCefDictionaryValue): Integer; stdcall;
+    set_list        : function(self: PCefListValue; index: Integer; value: PCefListValue): Integer; stdcall;
   end;
 
   // /include/capi/cef_string_visitor_capi.h (cef_string_visitor_t)
@@ -1930,10 +1846,9 @@ type
     visit : procedure(self: PCefDomVisitor; document: PCefDomDocument); stdcall;
   end;
 
-  // /include/capi/cef_menu_model_capi.h (cef_menu_model_t) ****
+  // /include/capi/cef_menu_model_capi.h (cef_menu_model_t)
   TCefMenuModel = record
     base                  : TCefBase;
-    //is_sub_menu           : function(self: PCefMenuModel): Integer; stdcall;
     clear                 : function(self: PCefMenuModel): Integer; stdcall;
     get_count             : function(self: PCefMenuModel): Integer; stdcall;
     add_separator         : function(self: PCefMenuModel): Integer; stdcall;
@@ -1983,15 +1898,9 @@ type
     remove_accelerator_at : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
     get_accelerator       : function(self: PCefMenuModel; command_id: Integer; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;
     get_accelerator_at    : function(self: PCefMenuModel; index: Integer; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;
-    //set_color             : function(self: PCefMenuModel; command_id: Integer; color_type: TCefMenuColorType; color: TCefColor): Integer; stdcall;
-    //set_color_at          : function(self: PCefMenuModel; index: Integer; color_type: TCefMenuColorType; color: TCefColor): Integer; stdcall;
-    //get_color             : function(self: PCefMenuModel; command_id: Integer; color_type: TCefMenuColorType; color: PCefColor): Integer; stdcall;
-    //get_color_at          : function(self: PCefMenuModel; index: Integer; color_type: TCefMenuColorType; color: PCefColor): Integer; stdcall;
-    //set_font_list         : function(self: PCefMenuModel; command_id: Integer; const font_list: PCefString): Integer; stdcall;
-    //set_font_list_at      : function(self: PCefMenuModel; index: Integer; const font_list: PCefString): Integer; stdcall;
   end;
 
-  // /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t) ****
+  // /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t)
   TCefContextMenuParams = record
     base                        : TCefBase;
     get_xcoord                  : function(self: PCefContextMenuParams): Integer; stdcall;
@@ -2001,7 +1910,6 @@ type
     get_unfiltered_link_url     : function(self: PCefContextMenuParams): PCefStringUserFree; stdcall;
     get_source_url              : function(self: PCefContextMenuParams): PCefStringUserFree; stdcall;
     has_image_contents          : function(self: PCefContextMenuParams): Integer; stdcall;
-    //get_title_text              : function(self: PCefContextMenuParams): PCefStringUserFree; stdcall;
     get_page_url                : function(self: PCefContextMenuParams): PCefStringUserFree; stdcall;
     get_frame_url               : function(self: PCefContextMenuParams): PCefStringUserFree; stdcall;
     get_frame_charset           : function(self: PCefContextMenuParams): PCefStringUserFree; stdcall;
@@ -2053,7 +1961,7 @@ type
     resume : procedure(self: PCefDownloadItemCallback); stdcall;
   end;
 
-  // /include/capi/cef_dom_capi.h (cef_domnode_t) ****
+  // /include/capi/cef_dom_capi.h (cef_domnode_t)
   TCefDomNode = record
     base                          : TCefBase;
     get_type                      : function(self: PCefDomNode): TCefDomNodeType; stdcall;
@@ -2081,7 +1989,6 @@ type
     get_element_attributes        : procedure(self: PCefDomNode; attrMap: TCefStringMap); stdcall;
     set_element_attribute         : function(self: PCefDomNode; const attrName, value: PCefString): Integer; stdcall;
     get_element_inner_text        : function(self: PCefDomNode): PCefStringUserFree; stdcall;
-    //get_element_bounds            : function(self: PCefDomNode): TCefRect; stdcall;
   end;
 
   // /include/capi/cef_dom_capi.h (cef_domdocument_t)
@@ -2173,7 +2080,7 @@ type
     execute_function_with_context       : function(self: PCefv8Value; context: PCefv8Context; obj: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value): PCefv8Value; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8context_t) ****
+  // /include/capi/cef_v8_capi.h (cef_v8context_t)
   TCefV8Context = record
     base            : TCefBase;
     get_task_runner : function(self: PCefv8Context): PCefTaskRunner; stdcall;
@@ -2184,10 +2091,8 @@ type
     enter           : function(self: PCefv8Context): Integer; stdcall;
     exit            : function(self: PCefv8Context): Integer; stdcall;
     is_same         : function(self, that: PCefv8Context): Integer; stdcall;
-    eval            : function(self: PCefv8Context; const code: PCefString; var retval: PCefv8Value; var exception: PCefV8Exception): Integer; stdcall; // ****
+    eval            : function(self: PCefv8Context; const code: PCefString; var retval: PCefv8Value; var exception: PCefV8Exception): Integer; stdcall;
   end;
-
-  // /include/capi/cef_v8_capi.h (cef_v8interceptor_t) ****
 
   // /include/capi/cef_v8_capi.h (cef_v8accessor_t)
   TCefV8Accessor = record
@@ -2241,7 +2146,7 @@ type
     on_context_menu_dismissed : procedure(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
   end;
 
-  // /include/capi/cef_client_capi.h (cef_client_t) ****
+  // /include/capi/cef_client_capi.h (cef_client_t)
   TCefClient = record
     base                        : TCefBase;
     get_context_menu_handler    : function(self: PCefClient): PCefContextMenuHandler; stdcall;
@@ -2251,7 +2156,7 @@ type
     get_drag_handler            : function(self: PCefClient): PCefDragHandler; stdcall;
     get_find_handler            : function(self: PCefClient): PCefFindHandler; stdcall;
     get_focus_handler           : function(self: PCefClient): PCefFocusHandler; stdcall;
-    get_geolocation_handler     : function(self: PCefClient): PCefGeolocationHandler; stdcall; {new}
+    get_geolocation_handler     : function(self: PCefClient): PCefGeolocationHandler; stdcall;
     get_jsdialog_handler        : function(self: PCefClient): PCefJsDialogHandler; stdcall;
     get_keyboard_handler        : function(self: PCefClient): PCefKeyboardHandler; stdcall;
     get_life_span_handler       : function(self: PCefClient): PCefLifeSpanHandler; stdcall;
@@ -2261,31 +2166,27 @@ type
     on_process_message_received : function(self: PCefClient; browser: PCefBrowser; source_process: TCefProcessId; message: PCefProcessMessage): Integer; stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_browser_host_t) ****
+  // /include/capi/cef_browser_capi.h (cef_browser_host_t)
   TCefBrowserHost = record
     base                              : TCefBase;
     get_browser                       : function(self: PCefBrowserHost): PCefBrowser; stdcall;
     close_browser                     : procedure(self: PCefBrowserHost; force_close: Integer); stdcall;
-    //try_close_browser                 : function(self: PCefBrowserHost): Integer; stdcall;
     set_focus                         : procedure(self: PCefBrowserHost; focus: Integer); stdcall;
-    set_window_visibility             : procedure(self: PCefBrowserHost; visible: Integer); stdcall; // {new}
+    set_window_visibility             : procedure(self: PCefBrowserHost; visible: Integer); stdcall;
     get_window_handle                 : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
     get_opener_window_handle          : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
-    //has_view                          : function(self: PCefBrowserHost): Integer; stdcall;
     get_client                        : function(self: PCefBrowserHost): PCefClient; stdcall;
     get_request_context               : function(self: PCefBrowserHost): PCefRequestContext; stdcall;
     get_zoom_level                    : function(self: PCefBrowserHost): Double; stdcall;
     set_zoom_level                    : procedure(self: PCefBrowserHost; zoomLevel: Double); stdcall;
     run_file_dialog                   : procedure(self: PCefBrowserHost; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; selected_accept_filter: Integer; callback: PCefRunFileDialogCallback); stdcall;
     start_download                    : procedure(self: PCefBrowserHost; const url: PCefString); stdcall;
-    //download_image                    : procedure(self: PCefBrowserHost; const image_url: PCefString; is_favicon: Integer; max_image_size: Cardinal; bypass_cache: Integer; callback: PCefDownloadImageCallback); stdcall;
     print                             : procedure(self: PCefBrowserHost); stdcall;
     print_to_pdf                      : procedure(self: PCefBrowserHost; const path: PCefString; const settings: PCefPdfPrintSettings; callback: PCefPdfPrintCallback); stdcall;
     find                              : procedure(self: PCefBrowserHost; identifier: Integer; const searchText: PCefString; forward, matchCase, findNext: Integer); stdcall;
     stop_finding                      : procedure(self: PCefBrowserHost; clearSelection: Integer); stdcall;
     show_dev_tools                    : procedure(self: PCefBrowserHost; const windowInfo: PCefWindowInfo; client: PCefClient; const settings: PCefBrowserSettings; const inspect_element_at: PCefPoint); stdcall;
     close_dev_tools                   : procedure(self: PCefBrowserHost); stdcall;
-    //has_dev_tools                     : function(self: PCefBrowserHost): Integer; stdcall;
     get_navigation_entries            : procedure(self: PCefBrowserHost; visitor: PCefNavigationEntryVisitor; current_only: Integer); stdcall;
     set_mouse_cursor_change_disabled  : procedure(self: PCefBrowserHost; disabled: Integer); stdcall;
     is_mouse_cursor_change_disabled   : function(self: PCefBrowserHost): Integer; stdcall;
@@ -2305,24 +2206,15 @@ type
     notify_move_or_resize_started     : procedure(self: PCefBrowserHost); stdcall;
     get_windowless_frame_rate         : function(self: PCefBrowserHost): Integer; stdcall;
     set_windowless_frame_rate         : procedure(self: PCefBrowserHost; frame_rate: Integer); stdcall;
-    get_nstext_input_context                  : function(self: PCefBrowserHost): TCefTextInputContext; stdcall;  {new}
-    handle_key_event_before_text_input_client : procedure(self: PCefBrowserHost; keyEvent: TCefEventHandle); stdcall; {new}
-    handle_key_event_after_text_input_client  : procedure(self: PCefBrowserHost; keyEvent: TCefEventHandle); stdcall; {new}
-    //ime_set_composition               : procedure(self: PCefBrowserHost; const text: PCefString; underlinesCount : NativeUInt; const underlines : PCefCompositionUnderline; const replacement_range, selection_range : PCefRange); stdcall;
-    //ime_commit_text                   : procedure(self: PCefBrowserHost; const text: PCefString; const replacement_range : PCefRange; relative_cursor_pos : integer); stdcall;
-    //ime_finish_composing_text         : procedure(self: PCefBrowserHost; keep_selection : integer); stdcall;
-    //ime_cancel_composition            : procedure(self: PCefBrowserHost); stdcall;
+    get_nstext_input_context                  : function(self: PCefBrowserHost): TCefTextInputContext; stdcall;
+    handle_key_event_before_text_input_client : procedure(self: PCefBrowserHost; keyEvent: TCefEventHandle); stdcall;
+    handle_key_event_after_text_input_client  : procedure(self: PCefBrowserHost; keyEvent: TCefEventHandle); stdcall;
     drag_target_drag_enter            : procedure(self: PCefBrowserHost; drag_data: PCefDragData; const event: PCefMouseEvent; allowed_ops: TCefDragOperations); stdcall;
     drag_target_drag_over             : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; allowed_ops: TCefDragOperations); stdcall;
     drag_target_drag_leave            : procedure(self: PCefBrowserHost); stdcall;
     drag_target_drop                  : procedure(self: PCefBrowserHost; event: PCefMouseEvent); stdcall;
     drag_source_ended_at              : procedure(self: PCefBrowserHost; x, y: Integer; op: TCefDragOperation); stdcall;
     drag_source_system_drag_ended     : procedure(self: PCefBrowserHost); stdcall;
-    //get_visible_navigation_entry      : function(self: PCefBrowserHost): PCefNavigationEntry; stdcall;
-    //set_accessibility_state           : procedure(self: PCefBrowserHost; accessibility_state: TCefState); stdcall;
-    //set_auto_resize_enabled           : procedure(self: PCefBrowserHost; enabled: integer; const min_size, max_size: PCefSize); stdcall;
-    //get_extension                     : function(self: PCefBrowserHost): PCefExtension; stdcall;
-    //is_background_host                : function(self: PCefBrowserHost): integer; stdcall;
   end;
 
   // /include/capi/cef_browser_capi.h (cef_browser_t)
@@ -2359,7 +2251,7 @@ type
     get_data_resource_for_scale : function(self: PCefResourceBundleHandler; resource_id: Integer; scale_factor: TCefScaleFactor; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
   end;
 
-  // /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t) ****
+  // /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)
   TCefBrowserProcessHandler = record
     base                              : TCefBase;
     on_context_initialized            : procedure(self: PCefBrowserProcessHandler); stdcall;
@@ -2378,10 +2270,6 @@ type
     get_browser_process_handler       : function(self: PCefApp): PCefBrowserProcessHandler; stdcall;
     get_render_process_handler        : function(self: PCefApp): PCefRenderProcessHandler; stdcall;
   end;
-
-  // /include/capi/cef_server_capi.h (cef_server_t) ****
-
-  // /include/capi/cef_server_capi.h (cef_server_handler_t) ****
 
 implementation
 

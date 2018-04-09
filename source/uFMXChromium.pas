@@ -90,6 +90,7 @@ type
       FZoomStep               : byte;
       FWindowName             : string;
       FPrefsFileName          : string;
+      FIsOSR                  : boolean;
       FInitialized            : boolean;
       FClosing                : boolean;
       FWindowInfo             : TCefWindowInfo;
@@ -426,8 +427,8 @@ type
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   BeforeDestruction; override;
-      function    CreateClientHandler : boolean; overload;
-      function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
+      function    CreateClientHandler(aIsOSR : boolean = True) : boolean; overload;
+      function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
       function    CreateBrowser(const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; virtual;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
@@ -516,6 +517,7 @@ type
       property  BrowserId               : integer                      read FBrowserId;
       property  Browser                 : ICefBrowser                  read FBrowser;
       property  CefClient               : ICefClient                   read FHandler;
+      property  CefWindowInfo           : TCefWindowInfo               read FWindowInfo;
       property  MultithreadApp          : boolean                      read GetMultithreadApp;
       property  IsLoading               : boolean                      read GetIsLoading;
       property  HasDocument             : boolean                      read GetHasDocument;
@@ -525,6 +527,9 @@ type
       property  CanGoForward            : boolean                      read GetCanGoForward;
       property  IsPopUp                 : boolean                      read GetIsPopUp;
       property  WindowHandle            : THandle                      read GetWindowHandle;
+      property  BrowserHandle           : THandle                      read FBrowserCompHWND;
+      property  WidgetHandle            : THandle                      read FWidgetCompHWND;
+      property  RenderHandle            : THandle                      read FRenderCompHWND;
       property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
       property  Initialized             : boolean                      read GetInitialized;
       property  RequestContextCache     : string                       read GetRequestContextCache;
@@ -827,13 +832,14 @@ begin
   end;
 end;
 
-function TFMXChromium.CreateClientHandler : boolean;
+function TFMXChromium.CreateClientHandler(aIsOSR : boolean) : boolean;
 begin
   Result := False;
 
   try
     if (FHandler = nil) then
       begin
+        FIsOSR   := aIsOsr;
         FHandler := TCustomClientHandler.Create(Self,
                                                 MustCreateLoadHandler,
                                                 MustCreateFocusHandler,
@@ -845,7 +851,7 @@ begin
                                                 MustCreateGeolocationHandler,
                                                 MustCreateJsDialogHandler,
                                                 True,
-                                                True, // FMX always uses the OSR mode
+                                                FIsOSR,
                                                 True,
                                                 MustCreateDragHandler,
                                                 MustCreateFindHandler);
@@ -858,9 +864,9 @@ begin
   end;
 end;
 
-function TFMXChromium.CreateClientHandler(var aClient : ICefClient) : boolean;
+function TFMXChromium.CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean) : boolean;
 begin
-  if CreateClientHandler then
+  if CreateClientHandler(aIsOSR) then
     begin
       aClient := FHandler;
       Result  := True;
@@ -3370,7 +3376,16 @@ end;
 
 procedure TFMXChromium.Invalidate(kind: TCefPaintElementType);
 begin
-  if Initialized then FBrowser.Host.Invalidate(kind);
+  if Initialized then
+    begin
+      if FIsOSR then
+        FBrowser.Host.Invalidate(kind)
+       else
+        if (RenderHandle <> 0) then
+          InvalidateRect(RenderHandle, nil, False)
+         else
+          InvalidateRect(WindowHandle, nil, False);
+    end;
 end;
 
 procedure TFMXChromium.SendKeyEvent(const event: PCefKeyEvent);
