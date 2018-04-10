@@ -153,6 +153,9 @@ type
       FOnProcessMessageReceived      : TOnProcessMessageReceivedEvent;
 
       procedure SetCache(const aValue : ustring);
+      procedure SetCookies(const aValue : ustring);
+      procedure SetUserDataPath(const aValue : ustring);
+      procedure SetBrowserSubprocessPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
       procedure SetOsmodalLoop(aValue : boolean);
@@ -248,13 +251,13 @@ type
       procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
 
       property Cache                             : ustring                             read FCache                             write SetCache;
-      property Cookies                           : ustring                             read FCookies                           write FCookies;
-      property UserDataPath                      : ustring                             read FUserDataPath                      write FUserDataPath;
+      property Cookies                           : ustring                             read FCookies                           write SetCookies;
+      property UserDataPath                      : ustring                             read FUserDataPath                      write SetUserDataPath;
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
       property ProductVersion                    : ustring                             read FProductVersion                    write FProductVersion;
       property Locale                            : ustring                             read FLocale                            write FLocale;
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
-      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write FBrowserSubprocessPath;
+      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
       property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
@@ -534,30 +537,98 @@ end;
 
 procedure TCefApplication.SetCache(const aValue : ustring);
 begin
-  FCache := trim(aValue);
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        FCache := GetModulePath + aValue
+       else
+        FCache := aValue;
+    end
+   else
+    FCache := '';
+end;
+
+procedure TCefApplication.SetCookies(const aValue : ustring);
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        FCookies := GetModulePath + aValue
+       else
+        FCookies := aValue;
+    end
+   else
+    FCookies := '';
+end;
+
+procedure TCefApplication.SetUserDataPath(const aValue : ustring);
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        FUserDataPath := GetModulePath + aValue
+       else
+        FUserDataPath := aValue;
+    end
+   else
+    FUserDataPath := '';
+end;
+
+procedure TCefApplication.SetBrowserSubprocessPath(const aValue : ustring);
+var
+  TempPath : string;
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        TempPath := GetModulePath + aValue
+       else
+        TempPath := aValue;
+
+      if FileExists(TempPath) then
+        FBrowserSubprocessPath := TempPath
+       else
+        FBrowserSubprocessPath := '';
+    end
+   else
+    FBrowserSubprocessPath := '';
 end;
 
 procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
+var
+  TempPath : string;
 begin
-  if (length(aValue) > 0) and DirectoryExists(aValue) then
+  if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        FResourcesDirPath := GetModulePath + aValue
+        TempPath := GetModulePath + aValue
        else
-        FResourcesDirPath := aValue;
+        TempPath := aValue;
+
+      if DirectoryExists(TempPath) then
+        FResourcesDirPath := TempPath
+       else
+        FResourcesDirPath := '';
     end
    else
     FResourcesDirPath := '';
 end;
 
 procedure TCefApplication.SetLocalesDirPath(const aValue : ustring);
+var
+  TempPath : string;
 begin
-  if (length(aValue) > 0) and DirectoryExists(aValue) then
+  if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        FLocalesDirPath := GetModulePath + aValue
+        TempPath := GetModulePath + aValue
        else
-        FLocalesDirPath := aValue;
+        TempPath := aValue;
+
+      if DirectoryExists(TempPath) then
+        FLocalesDirPath := TempPath
+       else
+        FLocalesDirPath := '';
     end
    else
     FLocalesDirPath := '';
