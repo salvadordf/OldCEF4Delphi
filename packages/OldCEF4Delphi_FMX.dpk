@@ -149,7 +149,8 @@ contains
   uCEFGeolocationCallback in '..\source\uCEFGeolocationCallback.pas',
   uCEFGeolocationHandler in '..\source\uCEFGeolocationHandler.pas',
   uCEFSslCertPrincipal in '..\source\uCEFSslCertPrincipal.pas',
-  uCEFBase in '..\source\uCEFBase.pas';
+  uCEFBase in '..\source\uCEFBase.pas',
+  uFMXWindowParent in '..\source\uFMXWindowParent.pas';
 
 end.
 
