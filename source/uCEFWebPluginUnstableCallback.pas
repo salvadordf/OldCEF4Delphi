@@ -1,5 +1,5 @@
 // ************************************************************************
-// ***************************** OldCEF4Delphi *******************************
+// ***************************** OldCEF4Delphi ****************************
 // ************************************************************************
 //
 // OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
@@ -105,6 +105,8 @@ end;
 
 constructor TCefFastWebPluginUnstableCallback.Create(const callback: TCefWebPluginIsUnstableProc);
 begin
+  inherited Create;
+
   FCallback := callback;
 end;
 
