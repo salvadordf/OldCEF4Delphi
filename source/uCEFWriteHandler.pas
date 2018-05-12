@@ -70,10 +70,10 @@ type
     protected
       FCriticalSection : TRTLCriticalSection;
 
-      FGrow     : NativeUInt;
-      FData     : Pointer;
-      FDataSize : int64;
-      FOffset   : int64;
+      FGrow       : NativeUInt;
+      FBuffer     : Pointer;
+      FBufferSize : int64;
+      FOffset     : int64;
 
       function Grow(size : NativeUInt) : NativeUInt;
 
@@ -214,16 +214,16 @@ begin
 
   InitializeCriticalSection(FCriticalSection);
 
-  FGrow     := aGrow;
-  FDataSize := aGrow;
-  FOffset   := 0;
+  FGrow       := aGrow;
+  FBufferSize := aGrow;
+  FOffset     := 0;
 
-  GetMem(FData, aGrow);
+  GetMem(FBuffer, aGrow);
 end;
 
 destructor TCefBytesWriteHandler.Destroy;
 begin
-  if (FData <> nil) then FreeMem(FData);
+  if (FBuffer <> nil) then FreeMem(FBuffer);
 
   DeleteCriticalSection(FCriticalSection);
 
@@ -243,11 +243,11 @@ var
 begin
   EnterCriticalSection(FCriticalSection);
 
-  if ((FOffset + (size * n)) >= FDataSize) and (Grow(size * n) = 0) then
+  if ((FOffset + (size * n)) >= FBufferSize) and (Grow(size * n) = 0) then
     Result := 0
    else
     begin
-      TempPointer := Pointer(cardinal(FData) + FOffset);
+      TempPointer := Pointer(cardinal(FBuffer) + FOffset);
 
       CopyMemory(TempPointer, ptr, size * n);
 
@@ -272,7 +272,7 @@ begin
 
   case whence of
     SEEK_CUR :
-      if not((FOffset + offset > FDataSize) or (FOffset + offset < 0)) then
+      if not((FOffset + offset > FBufferSize) or (FOffset + offset < 0)) then
         begin
           FOffset := FOffset + offset;
           Result  := 0;
@@ -282,15 +282,15 @@ begin
       begin
         TempAbsOffset := abs(offset);
 
-        if not(TempAbsOffset > FDataSize) then
+        if not(TempAbsOffset > FBufferSize) then
           begin
-            FOffset := FDataSize - TempAbsOffset;
+            FOffset := FBufferSize - TempAbsOffset;
             Result  := 0;
           end;
       end;
 
     SEEK_SET:
-      if not((offset > FDataSize) or (offset < 0)) then
+      if not((offset > FBufferSize) or (offset < 0)) then
         begin
           FOffset := offset;
           Result  := 0;
@@ -321,12 +321,12 @@ end;
 
 function TCefBytesWriteHandler.GetData : pointer;
 begin
-  Result := FData;
+  Result := FBuffer;
 end;
 
 function TCefBytesWriteHandler.GetDataSize : int64;
 begin
-  Result := FDataSize;
+  Result := FBufferSize;
 end;
 
 function TCefBytesWriteHandler.Grow(size : NativeUInt) : NativeUInt;
@@ -340,10 +340,10 @@ begin
    else
     s := FGrow;
 
-  ReallocMem(FData, FDataSize + s);
+  ReallocMem(FBuffer, FBufferSize + s);
 
-  FDataSize := FDataSize + s;
-  Result    := FDataSize;
+  FBufferSize := FBufferSize + s;
+  Result      := FBufferSize;
 
   LeaveCriticalSection(FCriticalSection);
 end;
