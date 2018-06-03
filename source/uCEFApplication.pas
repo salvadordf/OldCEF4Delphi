@@ -412,6 +412,7 @@ begin
   FLocalesRequired               := '';
   FProcessType                   := ParseProcessType;
   FShutdownWaitTime              := 0;
+  FMustFreeLibrary               := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
