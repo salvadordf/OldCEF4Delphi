@@ -2,7 +2,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 624
+  ClientHeight = 710
   ClientWidth = 1038
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,13 +20,13 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 532
+    Top = 477
     Width = 1038
     Height = 3
     Cursor = crVSplit
     Align = alBottom
     ExplicitTop = 30
-    ExplicitWidth = 505
+    ExplicitWidth = 450
   end
   object AddressPnl: TPanel
     Left = 0
@@ -50,7 +50,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
-      Text = 'https://www.wikipedia.org'
+      Text = 'https://www.wikipedia.org/'
       ExplicitHeight = 21
     end
     object Panel1: TPanel
@@ -88,7 +88,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Height = 20
         Align = alRight
         TabOrder = 1
-        Text = 'index-47f5f07682.js'
+        Text = 'index-475f3bca23.js'
         ExplicitHeight = 21
       end
     end
@@ -97,19 +97,48 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Left = 0
     Top = 30
     Width = 1038
-    Height = 502
+    Height = 447
     Align = alClient
     TabOrder = 1
   end
-  object Memo1: TMemo
+  object Panel2: TPanel
     Left = 0
-    Top = 535
+    Top = 480
     Width = 1038
-    Height = 89
+    Height = 230
     Align = alBottom
-    ReadOnly = True
-    ScrollBars = ssBoth
+    BevelOuter = bvNone
+    ShowCaption = False
     TabOrder = 2
+    object Memo1: TMemo
+      Left = 0
+      Top = 0
+      Width = 1038
+      Height = 211
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 0
+    end
+    object StatusBar1: TStatusBar
+      Left = 0
+      Top = 211
+      Width = 1038
+      Height = 19
+      Panels = <
+        item
+          Width = 200
+        end
+        item
+          Width = 200
+        end
+        item
+          Width = 200
+        end
+        item
+          Width = 200
+        end>
+    end
   end
   object Timer1: TTimer
     Enabled = False
