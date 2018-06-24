@@ -791,6 +791,7 @@ type
     single_process                 : Integer;
     no_sandbox                     : Integer;
     browser_subprocess_path        : TCefString;
+    framework_dir_path             : TCefString;
     multi_threaded_message_loop    : Integer;
     windowless_rendering_enabled   : Integer;
     command_line_args_disabled     : Integer;

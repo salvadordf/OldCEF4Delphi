@@ -75,6 +75,7 @@ type
       FLogFile                       : ustring;
       FBrowserSubprocessPath         : ustring;
       FCustomFlashPath               : ustring;
+      FFrameworkDirPath              : ustring;
       FLogSeverity                   : TCefLogSeverity;
       FJavaScriptFlags               : ustring;
       FResourcesDirPath              : ustring;
@@ -155,6 +156,7 @@ type
       procedure SetCookies(const aValue : ustring);
       procedure SetUserDataPath(const aValue : ustring);
       procedure SetBrowserSubprocessPath(const aValue : ustring);
+      procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
       procedure SetOsmodalLoop(aValue : boolean);
@@ -257,6 +259,7 @@ type
       property Locale                            : ustring                             read FLocale                            write FLocale;
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
+      property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
       property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
@@ -365,6 +368,7 @@ begin
   FLogFile                       := '';
   FBrowserSubprocessPath         := '';
   FCustomFlashPath               := '';
+  FFrameworkDirPath              := '';
   FLogSeverity                   := LOGSEVERITY_DISABLE;
   FJavaScriptFlags               := '';
   FResourcesDirPath              := '';
@@ -530,7 +534,10 @@ end;
 
 function TCefApplication.GetLibCefPath : string;
 begin
-  Result := LIBCEF_DLL;
+  if (length(FFrameworkDirPath) > 0) then
+    Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + LIBCEF_DLL
+   else
+    Result := LIBCEF_DLL;
 end;
 
 procedure TCefApplication.SetCache(const aValue : ustring);
@@ -592,6 +599,27 @@ begin
     FBrowserSubprocessPath := '';
 end;
 
+
+procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
+var
+  TempPath : string;
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        TempPath := GetModulePath + aValue
+       else
+        TempPath := aValue;
+
+      if DirectoryExists(TempPath) then
+        FFrameworkDirPath := TempPath
+       else
+        FFrameworkDirPath := '';
+    end
+   else
+    FFrameworkDirPath := '';
+end;
+
 procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
 var
   TempPath : string;
@@ -643,7 +671,7 @@ begin
     Result := True
    else
     begin
-      TempMissingFrm := not(CheckDLLs('', FMissingLibFiles));
+      TempMissingFrm := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
       TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources));
       TempMissingLoc := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
@@ -792,6 +820,7 @@ begin
   aSettings.single_process                  := Ord(FSingleProcess);
   aSettings.no_sandbox                      := Ord(FNoSandbox);
   aSettings.browser_subprocess_path         := CefString(FBrowserSubprocessPath);
+  aSettings.framework_dir_path              := CefString(FFrameworkDirPath);
   aSettings.multi_threaded_message_loop     := Ord(FMultiThreadedMessageLoop);
   aSettings.windowless_rendering_enabled    := Ord(FWindowlessRenderingEnabled);
   aSettings.command_line_args_disabled      := Ord(FCommandLineArgsDisabled);
