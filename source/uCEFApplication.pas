@@ -338,6 +338,8 @@ type
 var
   GlobalCEFApp : TCefApplication = nil;
 
+procedure DestroyGlobalCEFApp;
+
 implementation
 
 uses
@@ -348,6 +350,11 @@ uses
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp;
+
+procedure DestroyGlobalCEFApp;
+begin
+  if (GlobalCEFApp <> nil) then FreeAndNil(GlobalCEFApp);
+end;
 
 constructor TCefApplication.Create;
 begin
