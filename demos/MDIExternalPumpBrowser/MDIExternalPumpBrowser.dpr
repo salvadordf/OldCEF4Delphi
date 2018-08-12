@@ -43,11 +43,9 @@ uses
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,
-  System.SysUtils,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
   uCEFWorkScheduler,
@@ -59,14 +57,7 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
-
-  GlobalCEFApp                           := TCefApplication.Create;
-  GlobalCEFApp.FlashEnabled              := False;
-  GlobalCEFApp.MultiThreadedMessageLoop  := False;
-  GlobalCEFApp.OnContextInitialized      := GlobalCEFApp_OnContextInitialized;
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -78,6 +69,6 @@ begin
       MainForm.Free;
     end;
 
-  FreeAndNil(GlobalCEFApp);
-  FreeAndNil(GlobalCEFWorkScheduler);
+  DestroyGlobalCEFApp;
+  DestroyGlobalCEFWorkScheduler;
 end.

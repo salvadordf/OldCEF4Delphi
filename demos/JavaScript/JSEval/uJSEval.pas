@@ -118,15 +118,14 @@ type
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
-    procedure ParseEvalJsAnswer(const pMessage: ICefProcessMessage; pBrowser: ICefBrowser; pReturnValue : ICefv8Value; pException : ICefV8Exception);
-    procedure ParseBinaryValue(const pBrowser : ICefBrowser; const aBinaryValue : ICefBinaryValue);
-
   public
-    procedure RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser: ICefBrowser; uSourceProcess: TCefProcessId; const pMessage: ICefProcessMessage; var aHandled : boolean);
+
   end;
 
 var
   JSEvalFrm: TJSEvalFrm;
+
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -139,7 +138,7 @@ uses
 
 // Steps to evaluate some JavaScript code using the V8Context
 // ----------------------------------------------------------
-// 1. Set GlobalCEFApp.OnProcessMessageReceived to JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
+// 1. Set GlobalCEFApp.OnProcessMessageReceived to RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
 // 2. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
 // 3. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
 // 4. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer
@@ -153,7 +152,7 @@ uses
 
 // This demo also has an example of binary parameters in process messages
 // ----------------------------------------------------------------------
-// 1. Set GlobalCEFApp.OnProcessMessageReceived to JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
+// 1. Set GlobalCEFApp.OnProcessMessageReceived to RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
 // 2. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_JSBINPARAM message to the form.
 // 3. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the
 //    renderer process.
@@ -179,6 +178,136 @@ uses
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
+
+
+procedure ParseEvalJsAnswer(const pMessage     : ICefProcessMessage;
+                                  pBrowser     : ICefBrowser;
+                                  pReturnValue : ICefv8Value;
+                                  pException   : ICefV8Exception);
+var
+  pAnswer       : ICefProcessMessage;
+  strResult     : String;
+  bGoodDataType : Boolean;
+begin
+  pAnswer := TCefProcessMessageRef.New(EVAL_JS);
+
+  if (pReturnValue = nil) or not(pReturnValue.IsValid) then
+    begin
+      pAnswer.ArgumentList.SetBool(0, false);
+      pAnswer.ArgumentList.SetString(1, pException.Message);
+    end
+   else
+    begin
+      bGoodDataType := True;
+
+      if      pReturnValue.IsString then strResult := pReturnValue.GetStringValue
+      else if pReturnValue.IsBool   then strResult := BoolToStr(pReturnValue.GetBoolValue)
+      else if pReturnValue.IsInt    then strResult := IntToStr(pReturnValue.GetIntValue)
+      else if pReturnValue.IsUInt   then strResult := IntToStr(pReturnValue.GetUIntValue)
+      else if pReturnValue.IsDouble then strResult := FloatToStr(pReturnValue.GetDoubleValue)
+      else bGoodDataType := False;
+
+      if bGoodDataType then
+        begin
+          pAnswer.ArgumentList.SetBool(0, true);
+          pAnswer.ArgumentList.SetString(1, strResult);
+        end
+       else
+        begin
+          pAnswer.ArgumentList.SetBool(0, false);
+          pAnswer.ArgumentList.SetString(1, 'Result data type need to be string, int, uint or double!');
+        end;
+    end;
+
+  pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
+end;
+
+procedure ParseBinaryValue(const pBrowser : ICefBrowser; const aBinaryValue : ICefBinaryValue);
+var
+  pAnswer     : ICefProcessMessage;
+  TempBuffer  : TBytes;
+  TempPointer : pointer;
+  TempSize    : NativeUInt;
+  TempString  : string;
+begin
+  if (aBinaryValue = nil) then exit;
+
+  try
+    try
+      TempSize := aBinaryValue.GetSize;
+
+      if (TempSize > 0) then
+        begin
+          SetLength(TempBuffer, TempSize);
+          TempPointer := @TempBuffer[0];
+          TempSize    := aBinaryValue.GetData(TempPointer, TempSize, 0);
+
+          if (TempSize > 0) then
+            begin
+              pAnswer    := TCefProcessMessageRef.New(BINARY_PARAM_JS);
+              TempString := 'Image size : ' + inttostr(TempSize) + #13 + #10 +
+                            'Encoded image : ' + EncodeBase64(TempPointer, TempSize);
+
+              if pAnswer.ArgumentList.SetString(0, TempString) then
+                pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TJSEvalFrm.ParseBinaryValue', e) then raise;
+    end;
+  finally
+    SetLength(TempBuffer, 0);
+  end;
+end;
+
+procedure RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser       : ICefBrowser;
+                                                                   uSourceProcess : TCefProcessId;
+                                                             const pMessage       : ICefProcessMessage;
+                                                             var   aHandled       : boolean);
+var
+  pV8Context   : ICefv8Context;
+  pReturnValue : ICefv8Value;
+  pException   : ICefV8Exception;
+  TempScript   : string;
+  TempBinValue : ICefBinaryValue;
+begin
+  aHandled := False;
+
+  if (pMessage = nil) or (pMessage.ArgumentList = nil) then exit;
+
+  if (pMessage.Name = EVAL_JS) then
+    begin
+      TempScript := pMessage.ArgumentList.GetString(0);
+
+      if (length(TempScript) > 0) then
+        begin
+          pV8Context := pBrowser.MainFrame.GetV8Context;
+
+          if pV8Context.Enter then
+            begin
+              pV8Context.Eval(TempScript, pReturnValue, pException);
+              ParseEvalJsAnswer(pMessage, pBrowser, pReturnValue, pException);
+              pV8Context.Exit;
+            end;
+        end;
+
+      aHandled := True;
+    end
+   else
+    if (pMessage.Name = BINARY_PARAM_JS) then
+      begin
+        TempBinValue := pMessage.ArgumentList.GetBinary(0);
+        ParseBinaryValue(pBrowser, TempBinValue);
+        aHandled := True;
+      end;
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                          := TCefApplication.Create;
+  GlobalCEFApp.OnProcessMessageReceived := RenderProcessHandler_OnProcessMessageReceivedEvent;
+end;
 
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
@@ -376,129 +505,6 @@ begin
   finally
     if (TempOpenDialog <> nil) then FreeAndNil(TempOpenDialog);
     if (TempStream     <> nil) then FreeAndNil(TempStream);
-    SetLength(TempBuffer, 0);
-  end;
-end;
-
-procedure TJSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser       : ICefBrowser;
-                                                                              uSourceProcess : TCefProcessId;
-                                                                        const pMessage       : ICefProcessMessage;
-                                                                        var   aHandled       : boolean);
-var
-  pV8Context   : ICefv8Context;
-  pReturnValue : ICefv8Value;
-  pException   : ICefV8Exception;
-  TempScript   : string;
-  TempBinValue : ICefBinaryValue;
-begin
-  aHandled := False;
-
-  if (pMessage = nil) or (pMessage.ArgumentList = nil) then exit;
-
-  if (pMessage.Name = EVAL_JS) then
-    begin
-      TempScript := pMessage.ArgumentList.GetString(0);
-
-      if (length(TempScript) > 0) then
-        begin
-          pV8Context := pBrowser.MainFrame.GetV8Context;
-
-          if pV8Context.Enter then
-            begin
-              pV8Context.Eval(TempScript, pReturnValue, pException);
-              ParseEvalJsAnswer(pMessage, pBrowser, pReturnValue, pException);
-              pV8Context.Exit;
-            end;
-        end;
-
-      aHandled := True;
-    end
-   else
-    if (pMessage.Name = BINARY_PARAM_JS) then
-      begin
-        TempBinValue := pMessage.ArgumentList.GetBinary(0);
-        ParseBinaryValue(pBrowser, TempBinValue);
-        aHandled := True;
-      end;
-end;
-
-procedure TJSEvalFrm.ParseEvalJsAnswer(const pMessage     : ICefProcessMessage;
-                                             pBrowser     : ICefBrowser;
-                                             pReturnValue : ICefv8Value;
-                                             pException   : ICefV8Exception);
-var
-  pAnswer       : ICefProcessMessage;
-  strResult     : String;
-  bGoodDataType : Boolean;
-begin
-  pAnswer := TCefProcessMessageRef.New(EVAL_JS);
-
-  if (pReturnValue = nil) or not(pReturnValue.IsValid) then
-    begin
-      pAnswer.ArgumentList.SetBool(0, false);
-      pAnswer.ArgumentList.SetString(1, pException.Message);
-    end
-   else
-    begin
-      bGoodDataType := True;
-
-      if      pReturnValue.IsString then strResult := pReturnValue.GetStringValue
-      else if pReturnValue.IsBool   then strResult := BoolToStr(pReturnValue.GetBoolValue)
-      else if pReturnValue.IsInt    then strResult := IntToStr(pReturnValue.GetIntValue)
-      else if pReturnValue.IsUInt   then strResult := IntToStr(pReturnValue.GetUIntValue)
-      else if pReturnValue.IsDouble then strResult := FloatToStr(pReturnValue.GetDoubleValue)
-      else bGoodDataType := False;
-
-      if bGoodDataType then
-        begin
-          pAnswer.ArgumentList.SetBool(0, true);
-          pAnswer.ArgumentList.SetString(1, strResult);
-        end
-       else
-        begin
-          pAnswer.ArgumentList.SetBool(0, false);
-          pAnswer.ArgumentList.SetString(1, 'Result data type need to be string, int, uint or double!');
-        end;
-    end;
-
-  pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
-end;
-
-procedure TJSEvalFrm.ParseBinaryValue(const pBrowser : ICefBrowser; const aBinaryValue : ICefBinaryValue);
-var
-  pAnswer     : ICefProcessMessage;
-  TempBuffer  : TBytes;
-  TempPointer : pointer;
-  TempSize    : NativeUInt;
-  TempString  : string;
-begin
-  if (aBinaryValue = nil) then exit;
-
-  try
-    try
-      TempSize := aBinaryValue.GetSize;
-
-      if (TempSize > 0) then
-        begin
-          SetLength(TempBuffer, TempSize);
-          TempPointer := @TempBuffer[0];
-          TempSize    := aBinaryValue.GetData(TempPointer, TempSize, 0);
-
-          if (TempSize > 0) then
-            begin
-              pAnswer    := TCefProcessMessageRef.New(BINARY_PARAM_JS);
-              TempString := 'Image size : ' + inttostr(TempSize) + #13 + #10 +
-                            'Encoded image : ' + EncodeBase64(TempPointer, TempSize);
-
-              if pAnswer.ArgumentList.SetString(0, TempString) then
-                pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TJSEvalFrm.ParseBinaryValue', e) then raise;
-    end;
-  finally
     SetLength(TempBuffer, 0);
   end;
 end;

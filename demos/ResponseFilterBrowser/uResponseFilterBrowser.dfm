@@ -32,7 +32,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Left = 0
     Top = 0
     Width = 1038
-    Height = 30
+    Height = 49
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
@@ -45,36 +45,30 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     object AddressEdt: TEdit
       Left = 5
       Top = 5
-      Width = 755
-      Height = 20
+      Width = 724
+      Height = 39
       Margins.Right = 5
       Align = alClient
+      ReadOnly = True
       TabOrder = 0
-      Text = 'https://www.wikipedia.org/'
+      Text = 'https://www.briskbard.com'
       ExplicitHeight = 21
     end
     object Panel1: TPanel
-      Left = 760
+      Left = 729
       Top = 5
-      Width = 273
-      Height = 20
+      Width = 304
+      Height = 39
       Align = alRight
       BevelOuter = bvNone
       Padding.Left = 5
       ShowCaption = False
       TabOrder = 1
-      object Label1: TLabel
-        Left = 54
-        Top = 3
-        Width = 84
-        Height = 13
-        Caption = 'Resource name : '
-      end
       object GoBtn: TButton
         Left = 5
         Top = 0
-        Width = 31
-        Height = 20
+        Width = 63
+        Height = 39
         Margins.Left = 5
         Align = alLeft
         Caption = 'Go'
@@ -82,22 +76,38 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         OnClick = GoBtnClick
       end
       object RscNameEdt: TEdit
-        Left = 144
+        Left = 176
         Top = 0
         Width = 129
-        Height = 20
-        Align = alRight
+        Height = 21
         TabOrder = 1
-        Text = 'index-475f3bca23.js'
-        ExplicitHeight = 21
+        Text = 'script.js'
+      end
+      object CopyScriptBtn: TRadioButton
+        Left = 74
+        Top = 2
+        Width = 96
+        Height = 17
+        Caption = 'Copy script :'
+        TabOrder = 2
+      end
+      object ReplaceLogoBtn: TRadioButton
+        Left = 74
+        Top = 21
+        Width = 96
+        Height = 17
+        Caption = 'Replace logo'
+        Checked = True
+        TabOrder = 3
+        TabStop = True
       end
     end
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Top = 30
+    Top = 49
     Width = 1038
-    Height = 447
+    Height = 428
     Align = alClient
     TabOrder = 1
   end
@@ -148,6 +158,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Top = 88
   end
   object Chromium1: TChromium
+    OnLoadStart = Chromium1LoadStart
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose

@@ -91,7 +91,7 @@ type
 var
   MainForm : TMainForm;
 
-procedure GlobalCEFApp_OnContextInitialized;
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -109,6 +109,18 @@ procedure GlobalCEFApp_OnContextInitialized;
 begin
   if (MainForm <> nil) and MainForm.HandleAllocated then
     PostMessage(MainForm.Handle, CEFBROWSER_INITIALIZED, 0, 0);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+
+  GlobalCEFApp                           := TCefApplication.Create;
+  GlobalCEFApp.FlashEnabled              := False;
+  GlobalCEFApp.MultiThreadedMessageLoop  := False;
+  GlobalCEFApp.OnContextInitialized      := GlobalCEFApp_OnContextInitialized;
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);

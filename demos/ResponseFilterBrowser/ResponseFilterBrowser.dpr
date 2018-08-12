@@ -68,6 +68,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.
