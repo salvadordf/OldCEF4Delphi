@@ -216,11 +216,15 @@ const
   DRAG_OPERATION_EVERY    = $FFFFFFFF;
 
   // /include/internal/cef_types.h (cef_file_dialog_mode_t)
+  FILE_DIALOG_OPEN                 = $00000000;
+  FILE_DIALOG_OPEN_MULTIPLE        = $00000001;
+  FILE_DIALOG_OPEN_FOLDER          = $00000002;
+  FILE_DIALOG_SAVE                 = $00000003;
   FILE_DIALOG_TYPE_MASK            = $000000FF;
   FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000;
   FILE_DIALOG_HIDEREADONLY_FLAG    = $02000000;
 
-  // /include/internal/cef_types.h (cef_uri_unescape_rule_t) ****
+  // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
   UU_NONE                                     = 0;
   UU_NORMAL                                   = 1;
   UU_SPACES                                   = 2;
@@ -231,55 +235,30 @@ const
   // /include/internal/cef_types.h (cef_menu_id_t)
   MENU_ID_BACK                       = 100;
   MENU_ID_FORWARD                    = 101;
-
   MENU_ID_RELOAD                     = 102;
-
   MENU_ID_RELOAD_NOCACHE             = 103;
-
   MENU_ID_STOPLOAD                   = 104;
-
   MENU_ID_UNDO                       = 110;
-
   MENU_ID_REDO                       = 111;
-
   MENU_ID_CUT                        = 112;
-
   MENU_ID_COPY                       = 113;
-
   MENU_ID_PASTE                      = 114;
-
   MENU_ID_DELETE                     = 115;
-
   MENU_ID_SELECT_ALL                 = 116;
-
   MENU_ID_FIND                       = 130;
-
   MENU_ID_PRINT                      = 131;
-
   MENU_ID_VIEW_SOURCE                = 132;
-
   MENU_ID_SPELLCHECK_SUGGESTION_0    = 200;
-
   MENU_ID_SPELLCHECK_SUGGESTION_1    = 201;
-
   MENU_ID_SPELLCHECK_SUGGESTION_2    = 202;
-
   MENU_ID_SPELLCHECK_SUGGESTION_3    = 203;
-
   MENU_ID_SPELLCHECK_SUGGESTION_4    = 204;
-
   MENU_ID_SPELLCHECK_SUGGESTION_LAST = 204;
-
   MENU_ID_NO_SPELLING_SUGGESTIONS    = 205;
-
   MENU_ID_ADD_TO_DICTIONARY          = 206;
-
   MENU_ID_CUSTOM_FIRST               = 220;
-
   MENU_ID_CUSTOM_LAST                = 250;
-
   MENU_ID_USER_FIRST                 = 26500;
-
   MENU_ID_USER_LAST                  = 28500;
 
   // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
@@ -328,6 +307,12 @@ const
   LOGSEVERITY_WARNING  = 3;
   LOGSEVERITY_ERROR    = 4;
   LOGSEVERITY_DISABLE  = 99;
+
+  // /include/internal/cef_types.h (cef_duplex_mode_t)
+  DUPLEX_MODE_UNKNOWN    = -1;
+  DUPLEX_MODE_SIMPLEX    = 0;
+  DUPLEX_MODE_LONG_EDGE  = 1;
+  DUPLEX_MODE_SHORT_EDGE = 2;
 
 
 //******************************************************
