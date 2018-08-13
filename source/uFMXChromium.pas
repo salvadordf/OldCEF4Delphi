@@ -2431,10 +2431,10 @@ begin
 
       case TempValue.GetType of
         VTYPE_NULL       : TempResult := TempResult + '-null-,';
-        VTYPE_BOOL       : TempResult := TempResult + BoolToStr(aValue.GetBool, true) + ',';
-        VTYPE_INT        : TempResult := TempResult + IntToStr(aValue.GetInt) + ',';
-        VTYPE_DOUBLE     : TempResult := TempResult + FloatToStr(aValue.GetDouble) + ',';
-        VTYPE_STRING     : TempResult := TempResult + aValue.GetString + ',';
+        VTYPE_BOOL       : TempResult := TempResult + BoolToStr(TempValue.GetBool, true) + ',';
+        VTYPE_INT        : TempResult := TempResult + IntToStr(TempValue.GetInt) + ',';
+        VTYPE_DOUBLE     : TempResult := TempResult + FloatToStr(TempValue.GetDouble) + ',';
+        VTYPE_STRING     : TempResult := TempResult + TempValue.GetString + ',';
         VTYPE_BINARY     : TempResult := TempResult + '-binary-,';
         VTYPE_DICTIONARY :
           begin
