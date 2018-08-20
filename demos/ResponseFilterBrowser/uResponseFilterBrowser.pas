@@ -116,7 +116,9 @@ type
     procedure ReplaceLogo(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
     procedure UpdateRscEncoding(const aMimeType, aContentType : string);
     function  IsMyResource(const aRequest : ICefRequest) : boolean;
+    {$IFDEF DELPHI15_UP}
     procedure GetResponseEncoding(const aContentType: string);
+    {$ENDIF}
   public
     { Public declarations }
   end;
@@ -486,11 +488,13 @@ procedure TResponseFilterBrowserFrm.UpdateRscEncoding(const aMimeType, aContentT
 begin
   FRscMimeType := aMimeType;
 
+  {$IFDEF DELPHI15_UP}
   if (aMimeType = 'application/json') or
      (aMimeType = 'text/json')        or
      (aMimeType = 'text/javascript')  or
      (aMimeType = 'application/javascript') then
     GetResponseEncoding(aContentType);
+  {$ENDIF}
 end;
 
 procedure TResponseFilterBrowserFrm.Chromium1ResourceLoadComplete(Sender : TObject;
@@ -557,7 +561,7 @@ begin
                 StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
 
                 SetLength(LAS, FStream.Size);
-                FStream.Read(LAS[Low(LAS)], FStream.Size);
+                FStream.Read(LAS[1], FStream.Size);
 
                 if (FRscEncoding = TEncoding.UTF8) then
                   LS := UTF8Decode(LAS) // UTF8 Here
@@ -656,6 +660,7 @@ begin
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
+{$IFDEF DELPHI15_UP}
 procedure TResponseFilterBrowserFrm.GetResponseEncoding(const aContentType: string);
 var
   LEncoding: String;
@@ -754,5 +759,6 @@ begin
     FRscEncoding := TEncoding.Default;
   end;
 end;
+{$ENDIF}
 
 end.
