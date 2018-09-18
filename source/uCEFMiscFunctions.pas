@@ -49,9 +49,9 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF}
-  System.Classes, System.SysUtils, System.UITypes, System.Math,
+  System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-  Windows, Classes, SysUtils, Controls, ActiveX, Math,
+  Windows, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Controls, ActiveX, Math,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler;
 
@@ -186,6 +186,8 @@ procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : doubl
 
 function GetScreenDPI : integer;
 function GetDeviceScaleFactor : single;
+
+function DeleteDirContents(const aDirectory : string) : boolean;
 
 implementation
 
@@ -1460,6 +1462,43 @@ end;
 function GetDeviceScaleFactor : single;
 begin
   Result := GetScreenDPI / 96;
+end;
+
+function DeleteDirContents(const aDirectory : string) : boolean;
+var
+  TempRec  : TSearchRec;
+  TempPath : string;
+begin
+  Result := True;
+
+  try
+    if (length(aDirectory) > 0) and
+       DirectoryExists(aDirectory) and
+       (FindFirst(aDirectory + '\*', faAnyFile, TempRec) = 0) then
+      try
+        repeat
+          TempPath := aDirectory + PathDelim + TempRec.Name;
+
+          if ((TempRec.Attr and faDirectory) <> 0) then
+            begin
+              if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
+                begin
+                  if DeleteDirContents(TempPath) then
+                    Result := RemoveDir(TempPath) and Result
+                   else
+                    Result := False;
+                end;
+            end
+           else
+            Result := DeleteFile(TempPath) and Result;
+        until (FindNext(TempRec) <> 0) or not(Result);
+      finally
+        FindClose(TempRec);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('DeleteDirContents', e) then raise;
+  end;
 end;
 
 end.
