@@ -113,14 +113,19 @@ uses
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := FCanClose;
-
-  if not(FClosing) then
+  if GlobalCEFApp.LibLoaded then
     begin
-      FClosing := True;
-      Visible  := False;
-      ChromiumWindow1.CloseBrowser(True);
-    end;
+      CanClose := FCanClose;
+
+      if not(FClosing) then
+        begin
+          FClosing := True;
+          Visible  := False;
+          ChromiumWindow1.CloseBrowser(True);
+        end;
+    end
+   else
+    CanClose := True;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);

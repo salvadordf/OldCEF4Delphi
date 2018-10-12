@@ -38,7 +38,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     BevelOuter = bvNone
     Enabled = False
     ShowCaption = False
-    TabOrder = 0
+    TabOrder = 1
     object NavButtonPnl: TPanel
       Left = 0
       Top = 0
@@ -218,7 +218,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Width = 1179
     Height = 652
     Align = alClient
-    TabOrder = 1
+    TabStop = True
+    TabOrder = 0
+    ExplicitLeft = -1
+    ExplicitTop = 47
   end
   object DevTools: TCEFWindowParent
     Left = 1184
