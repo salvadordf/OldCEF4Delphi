@@ -220,8 +220,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Align = alClient
     TabStop = True
     TabOrder = 0
-    ExplicitLeft = -1
-    ExplicitTop = 47
   end
   object DevTools: TCEFWindowParent
     Left = 1184

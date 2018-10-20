@@ -66,6 +66,7 @@ type
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
       function  DestroyChildWindow : boolean;
       procedure CreateHandle; override;
+      procedure InvalidateChildren;
       procedure Resize; override;
 
       property  ChildWindowHandle : THandle   read GetChildWindowHandle;
@@ -107,6 +108,11 @@ end;
 procedure TCEFWindowParent.CreateHandle;
 begin
   inherited;
+end;
+
+procedure TCEFWindowParent.InvalidateChildren;
+begin
+  if HandleAllocated then RedrawWindow(Handle, nil, 0, RDW_INVALIDATE or RDW_ALLCHILDREN);
 end;
 
 procedure TCEFWindowParent.UpdateSize;

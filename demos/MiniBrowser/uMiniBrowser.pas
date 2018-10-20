@@ -783,6 +783,7 @@ begin
   FClosing  := False;
   FResponse := TStringList.Create;
   FRequest  := TStringList.Create;
+  Chromium1.DefaultURL := MINIBROWSER_HOMEPAGE;
 end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
@@ -817,8 +818,6 @@ procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
-  AddURL(MINIBROWSER_HOMEPAGE);
-  Chromium1.LoadURL(MINIBROWSER_HOMEPAGE);
 end;
 
 procedure TMiniBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
