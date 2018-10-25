@@ -333,6 +333,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Resolve host...'
       OnClick = Resolvehost1Click
     end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object Memoryinfo1: TMenuItem
+      Caption = 'Memory info...'
+      OnClick = Memoryinfo1Click
+    end
   end
   object SaveDialog1: TSaveDialog
     Left = 32

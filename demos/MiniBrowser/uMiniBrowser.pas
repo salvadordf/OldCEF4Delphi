@@ -115,6 +115,8 @@ type
     Resolvehost1: TMenuItem;
     Timer1: TTimer;
     OpenfilewithaDATAURL1: TMenuItem;
+    N5: TMenuItem;
+    Memoryinfo1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -193,6 +195,7 @@ type
       const browser: ICefBrowser);
     procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
     procedure OpenfilewithaDATAURL1Click(Sender: TObject);
+    procedure Memoryinfo1Click(Sender: TObject);
 
   protected
     FResponse : TStringList;
@@ -718,6 +721,20 @@ begin
           inc(i);
         end;
     end;
+end;
+
+procedure TMiniBrowserFrm.Memoryinfo1Click(Sender: TObject);
+const
+  BYTES_PER_MEGABYTE = 1024 * 1024;
+var
+  TempMessage : string;
+begin
+  TempMessage := 'Total memory used by this application : ' + inttostr(GlobalCEFApp.UsedMemory div BYTES_PER_MEGABYTE) + ' Mb' + CRLF +
+                 'Total system memory : ' +  inttostr(GlobalCEFApp.TotalSystemMemory div BYTES_PER_MEGABYTE) + ' Mb' + CRLF +
+                 'Available physical memory : ' + inttostr(GlobalCEFApp.AvailableSystemMemory div BYTES_PER_MEGABYTE) + ' Mb' + CRLF +
+                 'Memory load : ' + inttostr(GlobalCEFApp.SystemMemoryLoad) + ' %';
+
+  MessageDlg(TempMessage, mtInformation, [mbOK], 0);
 end;
 
 procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;
