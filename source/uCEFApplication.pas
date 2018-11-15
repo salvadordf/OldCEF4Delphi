@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
+  {$IFDEF MSWINDOWS}WinApi.Windows, Vcl.Forms,{$ENDIF} System.Classes, System.UITypes,
   {$ELSE}
-  Windows, Classes,
+  Windows, Forms, Classes,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBase, uCEFSchemeRegistrar;
 
@@ -125,10 +125,12 @@ type
       FShutdownWaitTime              : cardinal;
       FMustFreeLibrary               : boolean;
       FLogProcessInfo                : boolean;
+      FDestroyAppWindows             : boolean;
 
       FMustCreateResourceBundleHandler : boolean;
       FMustCreateBrowserProcessHandler : boolean;
       FMustCreateRenderProcessHandler  : boolean;
+      FMustCreateLoadHandler           : boolean;
 
       // ICefBrowserProcessHandler
       FOnContextInitialized          : TOnContextInitializedEvent;
@@ -152,6 +154,12 @@ type
       FOnFocusedNodeChanged          : TOnFocusedNodeChangedEvent;
       FOnProcessMessageReceived      : TOnProcessMessageReceivedEvent;
 
+      // ICefLoadHandler
+      FOnLoadingStateChange          : TOnRenderLoadingStateChange;
+      FOnLoadStart                   : TOnRenderLoadStart;
+      FOnLoadEnd                     : TOnRenderLoadEnd;
+      FOnLoadError                   : TOnRenderLoadError;
+
       procedure SetCache(const aValue : ustring);
       procedure SetCookies(const aValue : ustring);
       procedure SetUserDataPath(const aValue : ustring);
@@ -165,6 +173,7 @@ type
       function  GetMustCreateResourceBundleHandler : boolean;
       function  GetMustCreateBrowserProcessHandler : boolean;
       function  GetMustCreateRenderProcessHandler : boolean;
+      function  GetMustCreateLoadHandler : boolean;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
       function  GetUsedMemory : cardinal;
@@ -235,7 +244,7 @@ type
       procedure   UpdateDeviceScaleFactor;
 
       // Internal procedures. Only TInternalApp, TCefCustomBrowserProcessHandler,
-      // ICefResourceBundleHandler and ICefRenderProcessHandler should use them.
+      // ICefResourceBundleHandler, ICefRenderProcessHandler and ICefLoadHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: ICefSchemeRegistrar);
       procedure   Internal_OnContextInitialized;
@@ -254,6 +263,10 @@ type
       procedure   Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
       procedure   Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
       procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
+      procedure   Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+      procedure   Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame);
+      procedure   Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+      procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 
       property Cache                             : ustring                             read FCache                             write SetCache;
       property Cookies                           : ustring                             read FCookies                           write SetCookies;
@@ -310,12 +323,14 @@ type
       property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
+      property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
       property ShutdownWaitTime                  : cardinal                            read FShutdownWaitTime                  write FShutdownWaitTime;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
+      property DestroyAppWindows                 : boolean                             read FDestroyAppWindows                 write FDestroyAppWindows;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : cardinal                            read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
@@ -440,10 +455,12 @@ begin
   FShutdownWaitTime              := 0;
   FMustFreeLibrary               := False;
   FLogProcessInfo                := False;
+  FDestroyAppWindows             := True;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
   FMustCreateRenderProcessHandler  := False;
+  FMustCreateLoadHandler           := False;
 
   // ICefBrowserProcessHandler
   FOnContextInitialized          := nil;
@@ -466,6 +483,12 @@ begin
   FOnUncaughtException           := nil;
   FOnFocusedNodeChanged          := nil;
   FOnProcessMessageReceived      := nil;
+
+  // ICefLoadHandler
+  FOnLoadingStateChange          := nil;
+  FOnLoadStart                   := nil;
+  FOnLoadEnd                     := nil;
+  FOnLoadError                   := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -550,6 +573,21 @@ begin
   try
     if CheckCEFLibrary and LoadCEFlibrary then
       begin
+        {$IFNDEF FPC}
+        if FDestroyAppWindows and (ProcessType <> ptBrowser) and (Application <> nil) then
+          begin
+            // This is the fix for the issue #139
+            // https://github.com/salvadordf/CEF4Delphi/issues/139
+            // Subprocesses will never use these window handles but TApplication creates them
+            // before executing the code in the DPR file. Any other application trying to
+            // initiate a DDE conversation will use SendMessage or SendMessageTimeout to
+            // broadcast the WM_DDE_INITIATE to all top-level windows. The subprocesses never
+            // call Application.Run so the SendMessage freezes the other applications.
+            if (Application.Handle          <> 0) then DestroyWindow(Application.Handle);
+            if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
+          end;
+        {$ENDIF}
+
         TempApp := TCustomCefApp.Create(self);
         Result  := (ExecuteProcess(TempApp) < 0) and InitializeLibrary(TempApp);
       end;
@@ -1182,6 +1220,23 @@ begin
     aHandled := False;
 end;
 
+procedure TCefApplication.Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+begin
+  if assigned(FOnLoadingStateChange) then FOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+end;
+ procedure TCefApplication.Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  if assigned(FOnLoadStart) then FOnLoadStart(browser, frame);
+end;
+ procedure TCefApplication.Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+begin
+  if assigned(FOnLoadEnd) then FOnLoadEnd(browser, frame, httpStatusCode);
+end;
+ procedure TCefApplication.Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+begin
+  if assigned(FOnLoadError) then FOnLoadError(browser, frame, errorCode, errorText, failedUrl);
+end;
+
 procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
                                                                  const commandLine : ICefCommandLine);
 var
@@ -1291,6 +1346,7 @@ begin
   Result := FSingleProcess or
             ((FProcessType = ptRenderer) and
              (FMustCreateRenderProcessHandler     or
+              MustCreateLoadHandler               or
               assigned(FOnRenderThreadCreated)    or
               assigned(FOnWebKitInitialized)      or
               assigned(FOnBrowserCreated)         or
@@ -1300,6 +1356,17 @@ begin
               assigned(FOnUncaughtException)      or
               assigned(FOnFocusedNodeChanged)     or
               assigned(FOnProcessMessageReceived)));
+end;
+
+function TCefApplication.GetMustCreateLoadHandler : boolean;
+begin
+  Result := FSingleProcess or
+            ((FProcessType = ptRenderer) and
+             (FMustCreateLoadHandler          or
+              assigned(FOnLoadingStateChange) or
+              assigned(FOnLoadStart)          or
+              assigned(FOnLoadEnd)            or
+              assigned(FOnLoadError)));
 end;
 
 function TCefApplication.GetGlobalContextInitialized : boolean;

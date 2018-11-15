@@ -47,7 +47,7 @@ unit uCEFLoadHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes, uCEFApplication;
 
 type
   TCefLoadHandlerOwn = class(TCefBaseOwn, ICefLoadHandler)
@@ -77,6 +77,18 @@ type
     public
       constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
+  end;
+
+  TCustomRenderLoadHandler = class(TCefLoadHandlerOwn)
+    protected
+       FCefApp : TCefApplication;
+       procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); override;
+       procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame); override;
+       procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); override;
+       procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring); override;
+     public
+       constructor Create(const aCefApp : TCefApplication); reintroduce; virtual;
+       destructor  Destroy; override;
   end;
 
 implementation
@@ -240,6 +252,72 @@ procedure TCustomLoadHandler.OnLoadStart(const browser        : ICefBrowser;
                                          const frame          : ICefFrame);
 begin
   if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadStart(browser, frame);
+end;
+
+// TCustomRenderLoadHandler
+
+constructor TCustomRenderLoadHandler.Create(const aCefApp : TCefApplication);
+begin
+  inherited Create;
+
+   FCefApp := aCefApp;
+end;
+
+destructor TCustomRenderLoadHandler.Destroy;
+begin
+  FCefApp := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCustomRenderLoadHandler.OnLoadEnd(const browser        : ICefBrowser;
+                                             const frame          : ICefFrame;
+                                                   httpStatusCode : Integer);
+begin
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnLoadEnd(browser, frame, httpStatusCode);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadEnd', e) then raise;
+  end;
+end;
+
+procedure TCustomRenderLoadHandler.OnLoadError(const browser   : ICefBrowser;
+                                               const frame     : ICefFrame;
+                                                     errorCode : TCefErrorCode;
+                                               const errorText : ustring;
+                                               const failedUrl : ustring);
+begin
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnLoadError(browser, frame, errorCode, errorText, failedUrl);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadError', e) then raise;
+  end;
+end;
+
+procedure TCustomRenderLoadHandler.OnLoadingStateChange(const browser      : ICefBrowser;
+                                                              isLoading    : Boolean;
+                                                              canGoBack    : Boolean;
+                                                              canGoForward : Boolean);
+begin
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadingStateChange', e) then raise;
+  end;
+end;
+
+procedure TCustomRenderLoadHandler.OnLoadStart(const browser        : ICefBrowser;
+                                               const frame          : ICefFrame);
+begin
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnLoadStart(browser, frame);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadStart', e) then raise;
+  end;
 end;
 
 end.

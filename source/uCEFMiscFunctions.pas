@@ -962,7 +962,7 @@ begin
     exit;
   {$ENDIF}
 
-  {$IFDEF DELPHI16_UP}
+  {$IFDEF DELPHI17_UP}
     Result := TOSVersion.Architecture in [arIntelX86, arARM32];
   {$ELSE}
     Result := False;
