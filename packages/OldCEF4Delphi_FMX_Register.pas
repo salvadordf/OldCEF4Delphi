@@ -50,13 +50,13 @@ implementation
 uses
   System.Classes,
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
-  uFMXBufferPanel, uFMXChromium, uFMXWorkScheduler;
+  uFMXBufferPanel, uFMXChromium, uFMXWorkScheduler, uCEFUrlRequestClientComponent;
 
 procedure Register;
 begin
   RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
                                   TFMXBufferPanel, TFMXChromium, TFMXWorkScheduler,
-                                  TCEFWorkScheduler]);
+                                  TCEFWorkScheduler, TCEFUrlRequestClientComponent]);
 end;
 
 end.

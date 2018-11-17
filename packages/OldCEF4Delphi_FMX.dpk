@@ -150,7 +150,9 @@ contains
   uCEFGeolocationHandler in '..\source\uCEFGeolocationHandler.pas',
   uCEFSslCertPrincipal in '..\source\uCEFSslCertPrincipal.pas',
   uCEFBase in '..\source\uCEFBase.pas',
-  uFMXWindowParent in '..\source\uFMXWindowParent.pas';
+  uFMXWindowParent in '..\source\uFMXWindowParent.pas',
+  uCEFUrlRequestClientComponent in '..\source\uCEFUrlRequestClientComponent.pas',
+  uCEFUrlRequestClientEvents in '..\source\uCEFUrlRequestClientEvents.pas';
 
 end.
 

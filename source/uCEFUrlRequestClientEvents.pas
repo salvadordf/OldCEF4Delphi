@@ -2,12 +2,12 @@
 // ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
 //        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
@@ -35,27 +35,36 @@
  *
  *)
 
-unit OldCEF4Delphi_D7_Register;
+unit uCEFUrlRequestClientEvents;
 
-{$R chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}
+  {$ALIGN ON}
+  {$MINENUMSIZE 4}
+{$ENDIF}
 
 {$I cef.inc}
 
 interface
 
-procedure Register;
+uses
+  {$IFDEF DELPHI16_UP}
+  System.Classes,
+  {$ELSE}
+  Classes,
+  {$ENDIF}
+  uCEFTypes, uCEFInterfaces;
+
+type
+  TOnRequestComplete    = procedure(Sender: TObject; const request: ICefUrlRequest) of object;
+  TOnUploadProgress     = procedure(Sender: TObject; const request: ICefUrlRequest; current, total: Int64) of object;
+  TOnDownloadProgress   = procedure(Sender: TObject; const request: ICefUrlRequest; current, total: Int64) of object;
+  TOnDownloadData       = procedure(Sender: TObject; const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt) of object;
+  TOnGetAuthCredentials = procedure(Sender: TObject; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; var aResult : Boolean) of object;
 
 implementation
-
-uses
-  Classes,
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
-  uCEFUrlRequestClientComponent;
-
-procedure Register;
-begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
-                                  TCEFWorkScheduler, TCEFUrlRequestClientComponent]);
-end;
 
 end.

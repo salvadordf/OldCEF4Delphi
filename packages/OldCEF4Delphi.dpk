@@ -145,7 +145,9 @@ contains
   uCEFStringList in '..\source\uCEFStringList.pas',
   uCEFGeolocationCallback in '..\source\uCEFGeolocationCallback.pas',
   uCEFGeolocationHandler in '..\source\uCEFGeolocationHandler.pas',
-  uCEFSslCertPrincipal in '..\source\uCEFSslCertPrincipal.pas';
+  uCEFSslCertPrincipal in '..\source\uCEFSslCertPrincipal.pas',
+  uCEFUrlRequestClientComponent in '..\source\uCEFUrlRequestClientComponent.pas',
+  uCEFUrlRequestClientEvents in '..\source\uCEFUrlRequestClientEvents.pas';
 
 end.
 

@@ -110,6 +110,7 @@ type
   ICefGeolocationCallback = interface;
   ICefGeolocationHandler = interface;
   ICefSchemeRegistrar = interface;
+  ICefUrlRequest = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefBinaryValueArray     = array of ICefBinaryValue;
@@ -329,6 +330,19 @@ type
     procedure doUpdateOwnPreferences;
     function  doSavePreferences : boolean;
     procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
+  end;
+
+  ICEFUrlRequestClientEvents = interface
+    ['{1AA800A7-56A1-43CA-A224-49368F18BDD8}']
+    // ICefUrlrequestClient
+    procedure doOnRequestComplete(const request: ICefUrlRequest);
+    procedure doOnUploadProgress(const request: ICefUrlRequest; current, total: Int64);
+    procedure doOnDownloadProgress(const request: ICefUrlRequest; current, total: Int64);
+    procedure doOnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt);
+    function  doOnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
+
+    // Custom
+    procedure doOnCreateURLRequest;
   end;
 
 
