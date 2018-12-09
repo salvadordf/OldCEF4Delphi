@@ -53,6 +53,7 @@ uses
   uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromiumWindow = class(TCEFWindowParent)
     protected
       FChromium       : TChromium;

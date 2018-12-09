@@ -51,6 +51,7 @@ uses
   {$ENDIF}
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
     protected
       FMutex          : THandle;
