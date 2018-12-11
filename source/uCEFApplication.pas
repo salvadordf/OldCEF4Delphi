@@ -745,6 +745,7 @@ begin
                            CEF_SUPPORTED_VERSION_BUILD) then
           begin
             if GetDLLHeaderMachine(LibCefPath, TempMachine) then
+              {$IFDEF MSWINDOWS}
               case TempMachine of
                 IMAGE_FILE_MACHINE_I386 :
                   if Is32BitProcess then
@@ -785,6 +786,9 @@ begin
               end
              else
               Result := True;
+            {$ELSE}
+            Result := True;
+            {$ENDIF}
           end
          else
           begin
