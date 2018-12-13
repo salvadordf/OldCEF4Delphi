@@ -747,7 +747,7 @@ begin
             if GetDLLHeaderMachine(LibCefPath, TempMachine) then
               {$IFDEF MSWINDOWS}
               case TempMachine of
-                IMAGE_FILE_MACHINE_I386 :
+                CEF_IMAGE_FILE_MACHINE_I386 :
                   if Is32BitProcess then
                     Result := True
                    else
@@ -760,7 +760,7 @@ begin
                       ShowErrorMessageDlg(TempString);
                     end;
 
-                IMAGE_FILE_MACHINE_AMD64 :
+                CEF_IMAGE_FILE_MACHINE_AMD64 :
                   if not(Is32BitProcess) then
                     Result := True
                    else
