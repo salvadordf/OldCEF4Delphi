@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -201,9 +201,8 @@ function THelloScheme.ReadResponse(const dataOut     : Pointer;
 begin
   if (FStream <> nil) and (DataOut <> nil) then
     begin
-      FStream.Seek(0, soFromBeginning);
       BytesRead := FStream.Read(DataOut^, BytesToRead);
-      Result    := True;
+      Result    := (BytesRead > 0);
     end
    else
     Result := False;
