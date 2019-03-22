@@ -130,6 +130,11 @@ type
       property Size;
       {$ENDIF}
 
+      {$IFNDEF DELPHI23_UP}
+      property Hint;
+      property ShowHint;
+      {$ENDIF}
+
       property OnEnter;
       property OnExit;
       property OnResize;

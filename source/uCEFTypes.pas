@@ -309,7 +309,8 @@ type
     width  : Integer;
     height : Integer;
   end;
-  TCefRectArray = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
+  TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
+  TCefRectDynArray = array of TCefRect;
 
   // /include/internal/cef_types.h (cef_point_t)
   TCefPoint = record
@@ -322,8 +323,6 @@ type
     width  : Integer;
     height : Integer;
   end;
-
-  // /include/internal/cef_types.h (cef_range_t)
 
   // /include/internal/cef_types.h (cef_page_range_t) {new}
   TCefPageRange = record

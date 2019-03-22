@@ -118,6 +118,11 @@ implementation
 // This demo uses a TFMXChromium and a TFMXWindowParent.
 // TFMXApplicationService is used to handle custom Windows messages
 
+// All FMX applications using CEF4Delphi should add the $(FrameworkType) conditional define
+// in the project options to avoid duplicated resources.
+// This demo has that define in the menu option :
+// Project -> Options -> Building -> Delphi compiler -> Conditional defines (All configurations)
+
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TFMXChromium.CloseBrowser which triggers the TFMXChromium.OnClose event.
@@ -207,18 +212,9 @@ begin
 end;
 
 procedure TSimpleFMXBrowserFrm.ResizeChild;
-var
-  TempRect : System.Types.TRect;
 begin
   if (FMXWindowParent <> nil) then
-    begin
-      TempRect.Top    := round(AddressPnl.Height);
-      TempRect.Left   := 0;
-      TempRect.Right  := ClientWidth  - 1;
-      TempRect.Bottom := ClientHeight - 1;
-
-      FMXWindowParent.SetBounds(TempRect);
-    end;
+    FMXWindowParent.SetBounds(0, round(AddressPnl.Height), ClientWidth - 1, ClientHeight -  1);
 end;
 
 procedure TSimpleFMXBrowserFrm.CreateFMXWindowParent;
@@ -255,6 +251,8 @@ begin
       TempRect.Top    := round(TempClientRect.Top);
       TempRect.Right  := round(TempClientRect.Right);
       TempRect.Bottom := round(TempClientRect.Bottom);
+
+      FMXChromium1.DefaultUrl := AddressEdt.Text;
 
       if not(FMXChromium1.CreateBrowser(TempHandle, TempRect)) then Timer1.Enabled := True;
     end;
@@ -293,7 +291,6 @@ begin
   // Now the browser is fully initialized
   Caption            := 'Simple FMX Browser';
   AddressPnl.Enabled := True;
-  LoadURL;
 end;
 
 procedure TSimpleFMXBrowserFrm.DoDestroyParent;

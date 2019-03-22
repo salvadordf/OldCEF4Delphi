@@ -2917,7 +2917,14 @@ begin
            else
             WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
 
-          TempClient := TCefClientOwn.Create;
+          TempClient := TCustomClientHandler.Create(Self, False, False,
+                                                    False, False,
+                                                    MustCreateKeyboardHandler,
+                                                    False, False,
+                                                    False, False,
+                                                    False, False,
+                                                    False, False,
+                                                    False);
 
           if (inspectElementAt.x <> low(integer)) and
              (inspectElementAt.y <> low(integer)) then
