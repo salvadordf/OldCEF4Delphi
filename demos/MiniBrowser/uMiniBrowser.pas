@@ -190,7 +190,7 @@ type
       out Result: TCefReturnValue);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      out Result: Boolean);
+      var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
     procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
@@ -399,15 +399,13 @@ begin
     InspectRequest(request);
 end;
 
-procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   if (browser <> nil) and (Chromium1.BrowserId = browser.Identifier) then
     begin
       PostMessage(Handle, CEF_DESTROY, 0, 0);
-      Result := True;
-    end
-   else
-    Result := False;
+      aAction := cbaDelay;
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;

@@ -64,7 +64,7 @@ type
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      out Result: Boolean);
+      var aAction : TCefCloseBrowserAction);
     procedure Chromium1PreKeyEvent(Sender: TObject;
       const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
       out isKeyboardShortcut, Result: Boolean);
@@ -139,10 +139,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
-  Result := False;
+  aAction := cbaDelay;
 end;
 
 procedure TChildForm.Chromium1KeyEvent(Sender: TObject;

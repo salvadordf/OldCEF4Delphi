@@ -153,6 +153,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
             '_name'
           'https://www.browserleaks.com/webrtc'
           'https://frames-per-second.appspot.com/'
+          
+            'https://webrtc.github.io/samples/src/content/devices/input-outpu' +
+            't/'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'

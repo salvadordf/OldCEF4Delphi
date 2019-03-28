@@ -46,7 +46,6 @@ object ChildForm: TChildForm
     OnTooltip = Chromium1Tooltip
     OnBeforePopup = Chromium1BeforePopup
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnGetViewRect = Chromium1GetViewRect
     OnGetScreenPoint = Chromium1GetScreenPoint
     OnGetScreenInfo = Chromium1GetScreenInfo

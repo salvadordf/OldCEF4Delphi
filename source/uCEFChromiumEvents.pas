@@ -105,7 +105,7 @@ type
   TOnAfterCreated                 = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnRunModal                     = procedure(Sender: TObject; const browser: ICefBrowser; var Result : boolean) of object;
   TOnBeforeClose                  = procedure(Sender: TObject; const browser: ICefBrowser) of object;
-  TOnClose                        = procedure(Sender: TObject; const browser: ICefBrowser; out Result: Boolean) of object;
+  TOnClose                        = procedure(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction) of object;
 
   // ICefRequestHandler
   TOnBeforeBrowse                 = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: Boolean; out Result: Boolean) of object;

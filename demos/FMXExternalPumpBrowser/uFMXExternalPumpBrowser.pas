@@ -94,7 +94,6 @@ type
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
-    procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
@@ -233,7 +232,6 @@ begin
     begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
-      chrmosr.DefaultUrl              := AddressEdt.Text;
 
       if chrmosr.CreateBrowser then
         DoBrowserCreated
@@ -493,11 +491,6 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(Sender : TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
-begin
-  Result := False;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrCursorChange(Sender : TObject;
@@ -843,6 +836,7 @@ begin
   Caption            := 'FMX External Pump Browser';
   AddressPnl.Enabled := True;
   Panel1.SetFocus;
+  LoadURL;
 end;
 
 function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;

@@ -273,6 +273,16 @@ type
     Build    : uint16;
   end;
 
+  // Used in TChromium.Onclose
+  // -------------------------
+  // cbaCancel : stop closing the browser
+  // cbaClose  : continue closing the browser
+  // cbaDelay  : stop closing the browser momentarily. Used when the application
+  //             needs to execute some custom processes before closing the
+  //             browser. This is usually needed to destroy a TCEFWindowParent
+  //             in the main thread before closing the browser.
+  TCefCloseBrowserAction = (cbaCancel, cbaDelay, cbaClose);
+
   TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptGPU, ptOther);
 
   TCefAplicationStatus = (asLoading,

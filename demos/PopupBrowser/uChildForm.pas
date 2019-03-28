@@ -85,9 +85,8 @@ type
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 
   protected
@@ -337,12 +336,12 @@ procedure TChildForm.Chromium1BeforePopup(Sender : TObject;
                                           const targetFrameName    : ustring;
                                                 targetDisposition  : TCefWindowOpenDisposition;
                                                 userGesture        : Boolean;
-                                          var   popupFeatures      : TCefPopupFeatures;
+                                          const popupFeatures      : TCefPopupFeatures;
                                           var   windowInfo         : TCefWindowInfo;
                                           var   client             : ICefClient;
                                           var   settings           : TCefBrowserSettings;
                                           var   noJavascriptAccess : Boolean;
-                                          out   Result             : Boolean);
+                                          var   Result             : Boolean);
 begin
   case targetDisposition of
     WOD_NEW_FOREGROUND_TAB,
@@ -355,10 +354,7 @@ begin
   end;
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
-begin
-  Result := False;
-end;
+
 
 procedure TChildForm.Chromium1CursorChange(Sender : TObject;
                                            const browser          : ICefBrowser;

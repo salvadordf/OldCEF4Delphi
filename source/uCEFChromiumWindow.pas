@@ -50,7 +50,7 @@ uses
   {$ELSE}
   Windows, Messages, Classes,
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants;
+  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFTypes, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
@@ -68,7 +68,7 @@ type
       procedure   OnBeforeCloseMsg(var aMessage : TMessage); message CEF_DOONBEFORECLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
 
-      procedure   WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+      procedure   WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
       procedure   WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure   WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 
@@ -135,15 +135,15 @@ begin
   Result := (FChromium <> nil) and FChromium.Initialized;
 end;
 
-procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
+  aAction := cbaClose;
+
   if assigned(FOnClose) then
     begin
       PostMessage(Handle, CEF_DOONCLOSE, 0, 0);
-      Result := True;
-    end
-   else
-    Result := False;
+      aAction := cbaDelay;
+    end;
 end;
 
 procedure TChromiumWindow.WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
