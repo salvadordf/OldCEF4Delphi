@@ -6,7 +6,7 @@ OldCEF4Delphi is based on DCEF3, made by Henri Gourvest. The original license of
 OldCEF4Delphi uses CEF 3.2623.1401.gb90a3be which includes Chromium 49.0.2623.110 and that means that it supports **Windows XP and Vista**. 
 The CEF3 binaries used by OldCEF4Delphi are located in the "CEF3_binaries" directory.
 
-OldCEF4Delphi was developed and tested on Delphi 10.3 Rio and Delphi 7. It includes VCL and FireMonkey (FMX) components.
+OldCEF4Delphi was developed and tested on Delphi 10.4 and Delphi 7. It includes VCL and FireMonkey (FMX) components.
 
 ## Links
 * For more information about OldCEF4Delphi read [this forum post](https://www.briskbard.com/forum/viewtopic.php?f=8&p=1715)
