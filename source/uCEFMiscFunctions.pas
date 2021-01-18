@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
@@ -94,6 +94,7 @@ procedure CefPostDelayedTask(ThreadId: TCefThreadId; const task: ICefTask; delay
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 
@@ -365,6 +366,7 @@ begin
   Result.second       := dt.wSecond;
   Result.millisecond  := dt.wMilliseconds;
 end;
+
 function FixCefTime(const dt : TCefTime): TCefTime;
 var
   DayTable : PDayTable;
@@ -373,10 +375,10 @@ begin
 
   Result.year         := min(9999, max(1, Result.year));
   Result.month        := min(12,   max(1, Result.month));
-  Result.hour         := min(23,   max(1, Result.hour));
-  Result.minute       := min(59,   max(1, Result.minute));
-  Result.second       := min(59,   max(1, Result.second));
-  Result.millisecond  := min(999,  max(1, Result.millisecond));
+  Result.hour         := min(23,   max(0, Result.hour));
+  Result.minute       := min(59,   max(0, Result.minute));
+  Result.second       := min(59,   max(0, Result.second));
+  Result.millisecond  := min(999,  max(0, Result.millisecond));
 
   DayTable            := @MonthDays[IsLeapYear(Result.year)];
   Result.day_of_month := min(DayTable^[Result.month], max(1, Result.day_of_month));
